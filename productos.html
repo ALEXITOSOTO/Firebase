@@ -9,7 +9,7 @@
     
 
     <h1>Gestion de productos</h1>
-    <form action="inssert">
+    <form id="form-product">
         <input id="nombre" type="text" placeholder="Ingrese nombre de producto">
         <input id="precio" type="number" placeholder="Ingrese precio de producto">
         <input id="codigo" type="text" placeholder="Ingrese codigo de producto">
@@ -38,7 +38,18 @@
       
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        
+        const productform = document.getElementById("form-product");
+        productform.addEventListener("submit",async(e)=>{
+            e.preventDefault();
+            await addDoc(collection(db,"productos"),{
+                nombre: productform.nombre.value,
+                precio: productform.precio.value,
+                codigo: productform.codigo.value,
+            });
+            productform.reset();
+        });
       </script>
 
 </body>
