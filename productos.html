@@ -15,6 +15,7 @@
         <input id="codigo" type="text" placeholder="Ingrese codigo de producto">
         <button type="submit" >Agregar Produto</button>
     </form>
+
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -23,34 +24,34 @@
         from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
-      
+    
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-          apiKey: "AIzaSyCTd6qPRlXw8QWNfng_0aZcjnxV0n1VKHI",
-          authDomain: "ventas-127f0.firebaseapp.com",
-          projectId: "ventas-127f0",
-          storageBucket: "ventas-127f0.appspot.com",
-          messagingSenderId: "867147811806",
-          appId: "1:867147811806:web:65664a593518f15faaeb4f",
-          measurementId: "G-NDQ0BQSVYS"
+        apiKey: "AIzaSyBl98YMnGuEua8KD8aXPG2TeWlBz-7xEKA",
+        authDomain: "futbol-953ae.firebaseapp.com",
+        projectId: "futbol-953ae",
+        storageBucket: "futbol-953ae.appspot.com",
+        messagingSenderId: "580514350036",
+        appId: "1:580514350036:web:349c4f46fb1831a4d10c41",
+        measurementId: "G-SX6FRVCWVE"
         };
-      
+    
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        
-        const productform = document.getElementById("form-product");
-        productform.addEventListener("submit",async(e)=>{
-            e.preventDefault();
-            await addDoc(collection(db,"productos"),{
-                nombre: productform.nombre.value,
-                precio: productform.precio.value,
-                codigo: productform.codigo.value,
+            const db = getFirestore(app);
+            
+            const productform = document.getElementById("form-product");
+            productform.addEventListener("submit",async(e)=>{
+                e.preventDefault();
+                await addDoc(collection(db,"productos"),{
+                    nombre: productform.nombre.value,
+                    precio: productform.precio.value,
+                    codigo: productform.codigo.value,
+                });
+                productform.reset();
             });
-            productform.reset();
-        });
-      </script>
+    </script>
 
 </body>
 
