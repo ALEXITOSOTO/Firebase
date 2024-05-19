@@ -13,13 +13,13 @@
             <h1>Ingreso de Caricaturas</h1>
             <form id="form-product-insert">
                 <input id="nombreCaricatura" type="text" placeholder="Ingrese Nombre de caricatura"><br>
-                <input id="year" type="text" placeholder="Ingrese Año de lanzamiento"><br>
+                <input id="year" type="number" placeholder="Ingrese Año de lanzamiento"><br>
                 <input id="creador" type="text" placeholder="Ingrese Creador(es)"><br>
                 <input id="genero" type="text" placeholder="Ingrese Género"><br>
                 <input id="pais" type="text" placeholder="Ingrese País de origen"><br>
                 <input id="personajes" type="text" placeholder="Ingrese Personajes principales"><br>
-                <input id="duracion" type="text" placeholder="Ingrese Duración de los episodios"><br>
-                <input id="temporadas" type="text" placeholder="Ingrese Número de temporadas"><br>
+                <input id="duracion" type="number" placeholder="Ingrese Duración de los episodios"><br>
+                <input id="temporadas" type="number" placeholder="Ingrese Número de temporadas"><br>
                 <input id="vigencia" type="text" placeholder="Ingrese Vigencia activa o innactiva"><br>
                 <input id="popularidad" type="text" placeholder="Ingrese Popularidad"><br>
                 <button type="submit">Agregar Caricatura</button>
@@ -40,13 +40,13 @@
             <form id="form-product-update">
                 <input id="nombreCaricaturaBuscar" type="text" placeholder="Ingrese Nombre de caricatura a actualizar"><br>
                 <input id="nombreCaricaturaUpdate" type="text" placeholder="Ingrese nuevo Nombre de caricatura"><br>
-                <input id="yearUpdate" type="text" placeholder="Ingrese nuevo Año de lanzamiento"><br>
+                <input id="yearUpdate" type="number" placeholder="Ingrese nuevo Año de lanzamiento"><br>
                 <input id="creadorUpdate" type="text" placeholder="Ingrese nuevo Creador(es)"><br>
                 <input id="generoUpdate" type="text" placeholder="Ingrese nuevo Género"><br>
                 <input id="paisUpdate" type="text" placeholder="Ingrese nuevo País de origen"><br>
                 <input id="personajesUpdate" type="text" placeholder="Ingrese nuevo Personajes principales"><br>
-                <input id="duracionUpdate" type="text" placeholder="Ingrese nuevo Duración de los episodios"><br>
-                <input id="temporadasUpdate" type="text" placeholder="Ingrese nuevo Número de temporadas"><br>
+                <input id="duracionUpdate" type="number" placeholder="Ingrese nuevo Duración de los episodios"><br>
+                <input id="temporadasUpdate" type="number" placeholder="Ingrese nuevo Número de temporadas"><br>
                 <input id="vigenciaUpdate" type="text" placeholder="Ingrese nuevo Vigencia activa o innactiva"><br>
                 <input id="popularidadUpdate" type="text" placeholder="Ingrese nuevo Popularidad"><br>
                 <button type="submit">Actualizar Caricatura</button>
@@ -139,44 +139,44 @@
             });
 
             // ACTUALIZAR CARICATURA
-        const productform2 = document.getElementById("form-product-update");
-        productform2.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            try {
-                const nombreCaricaturaBuscar = productform2.nombreCaricaturaBuscar.value;
+            const productform2 = document.getElementById("form-product-update");
+            productform2.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                try {
+                    const nombreCaricaturaBuscar = productform2.nombreCaricaturaBuscar.value;
 
-                if (!nombreCaricaturaBuscar) {
-                    console.error("El nombre de la caricatura no puede estar vacío");
-                    return;
+                    if (!nombreCaricaturaBuscar) {
+                        console.error("El nombre de la caricatura no puede estar vacío");
+                        return;
+                    }
+
+                    const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaBuscar));
+                    const querySnapshot = await getDocs(caricaturaQuery);
+
+                    if (querySnapshot.empty) {
+                        console.log("No se encontraron caricaturas con ese nombre.");
+                        return;
+                    }
+
+                    const docRef = querySnapshot.docs[0].ref;
+                    await updateDoc(docRef, {
+                        nombre: productform2.nombreCaricaturaUpdate.value,
+                        year: productform2.yearUpdate.value,
+                        creador: productform2.creadorUpdate.value,
+                        genero: productform2.generoUpdate.value,
+                        pais: productform2.paisUpdate.value,
+                        personajes: productform2.personajesUpdate.value,
+                        duracion: productform2.duracionUpdate.value,
+                        temporadas: productform2.temporadasUpdate.value,
+                        vigencia: productform2.vigenciaUpdate.value,
+                        popularidad: productform2.popularidadUpdate.value,
+                    });
+                    console.log("Documento actualizado correctamente");
+
+                    productform2.reset();
+                } catch (error) {
+                    console.error("Error al actualizar documento: ", error);
                 }
-
-                const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaBuscar));
-                const querySnapshot = await getDocs(caricaturaQuery);
-
-                if (querySnapshot.empty) {
-                    console.log("No se encontraron caricaturas con ese nombre.");
-                    return;
-                }
-
-                const docRef = querySnapshot.docs[0].ref;
-                await updateDoc(docRef, {
-                    nombre: productform2.nombreCaricaturaUpdate.value,
-                    year: productform2.yearUpdate.value,
-                    creador: productform2.creadorUpdate.value,
-                    genero: productform2.generoUpdate.value,
-                    pais: productform2.paisUpdate.value,
-                    personajes: productform2.personajesUpdate.value,
-                    duracion: productform2.duracionUpdate.value,
-                    temporadas: productform2.temporadasUpdate.value,
-                    vigencia: productform2.vigenciaUpdate.value,
-                    popularidad: productform2.popularidadUpdate.value,
-                });
-                console.log("Documento actualizado correctamente");
-
-                productform2.reset();
-            } catch (error) {
-                console.error("Error al actualizar documento: ", error);
-            }
             });
       </script>
 </body>
