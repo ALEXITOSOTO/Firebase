@@ -47,8 +47,9 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
-        import {getFirestore,collection,addDoc,onSnapshot,deleteDoc,doc}
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, query, where, getDocs } 
         from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
       
@@ -65,11 +66,10 @@
         };
       
         // Initialize Firebase
-        // INSERTAR CARICATURA
         const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-            
-            const productform = document.getElementById("form-product-insert");
+        const db = getFirestore(app);
+        // INSERTAR CARICATURA
+        const productform = document.getElementById("form-product-insert");
             productform.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 await addDoc(collection(db,"caricaturas"),{
