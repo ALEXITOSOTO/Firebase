@@ -30,21 +30,45 @@
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+        import {getFirestore,collection,addDoc,onSnapshot,deleteDoc,doc}
+        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
       
         // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-          apiKey: "AIzaSyC1LDcjB1ynXkRR5pojHYQ3ZMZD_XgEdgg",
-          authDomain: "caricatuas-43263.firebaseapp.com",
-          projectId: "caricatuas-43263",
-          storageBucket: "caricatuas-43263.appspot.com",
-          messagingSenderId: "493210036585",
-          appId: "1:493210036585:web:7026c9fd8ed136459475f8"
+          apiKey: "AIzaSyBl98YMnGuEua8KD8aXPG2TeWlBz-7xEKA",
+          authDomain: "futbol-953ae.firebaseapp.com",
+          projectId: "futbol-953ae",
+          storageBucket: "futbol-953ae.appspot.com",
+          messagingSenderId: "580514350036",
+          appId: "1:580514350036:web:e471b2d2e9485a52d10c41",
+          measurementId: "G-F614L2EHS5"
         };
       
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            
+            const productform = document.getElementById("form-product-insert");
+            productform.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                await addDoc(collection(db,"caricaturas"),{
+                    nombre: productform.nombre.value,
+                    year: productform.year.value,
+                    creador: productform.creador.value,
+                    genero: productform.genero.value,
+                    pais: productform.pais.value,
+                    personajes: productform.personajes.value,
+                    duracion: productform.duracion.value,
+                    temporadas: productform.temporadas.value,
+                    vigencia: productform.vigencia.value,
+                    popularidad: productform.popularidad.value,
+                });
+                productform.reset();
+            });
       </script>
 </body>
 </html>
