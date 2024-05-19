@@ -7,7 +7,7 @@
     <title>Gestion Caricaturas</title>
 </head>
 <body>
-    <h1>Gestion de Caricaturas</h1>
+    <h1 style="background-color: bisque; text-align: center;">Gestion de Caricaturas</h1>
     <div class="row">
         <div class="col-md-6">
             <h1>Ingreso de Caricaturas</h1>
@@ -178,6 +178,43 @@
                     console.error("Error al actualizar documento: ", error);
                 }
             });
+            // LEER CARICATURA
+            const buscarCaricaturaBtn = document.getElementById("buscarCaricatura");
+            buscarCaricaturaBtn.addEventListener("click", async () => {
+            const nombreCaricaturaBuscar = document.getElementById("nombreCaricaturaBuscar").value;
+
+            if (!nombreCaricaturaBuscar) {
+                console.error("El nombre de la caricatura no puede estar vacío");
+                return;
+            }
+
+            try {
+                const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaBuscar));
+                const querySnapshot = await getDocs(caricaturaQuery);
+
+                if (querySnapshot.empty) {
+                    console.log("No se encontraron caricaturas con ese nombre.");
+                    return;
+                }
+
+                const caricaturaData = querySnapshot.docs[0].data();
+
+                document.getElementById("nombreCaricaturaUpdate").value = caricaturaData.nombre || "";
+                document.getElementById("yearUpdate").value = caricaturaData.year || "";
+                document.getElementById("creadorUpdate").value = caricaturaData.creador || "";
+                document.getElementById("generoUpdate").value = caricaturaData.genero || "";
+                document.getElementById("paisUpdate").value = caricaturaData.pais || "";
+                document.getElementById("personajesUpdate").value = caricaturaData.personajes || "";
+                document.getElementById("duracionUpdate").value = caricaturaData.duracion || "";
+                document.getElementById("temporadasUpdate").value = caricaturaData.temporadas || "";
+                document.getElementById("vigenciaUpdate").value = caricaturaData.vigencia || "";
+                document.getElementById("popularidadUpdate").value = caricaturaData.popularidad || "";
+
+                console.log("Caricatura encontrada y datos cargados en el formulario.");
+            } catch (error) {
+                console.error("Error al buscar la caricatura: ", error);
+            }
+        });
       </script>
 </body>
 </html>
