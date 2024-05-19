@@ -95,18 +95,33 @@
                     // Obtiene el nombre de la caricatura que deseas eliminar
                     const nombreCaricaturaDelete = productform1.nombreCaricaturaDelete.value;
 
+                    // Verifica que el nombre de la caricatura no esté vacío
+                    if (!nombreCaricaturaDelete) {
+                        console.error("El nombre de la caricatura no puede estar vacío");
+                        return;
+                    }
+
                     // Consulta la colección "caricaturas" para encontrar el documento que coincida con el nombre de la caricatura
-                    const querySnapshot = await getDocs(query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaDelete)));
+                    const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaDelete));
+                    const querySnapshot = await getDocs(caricaturaQuery);
+
+                    // Verifica si existen documentos con ese nombre
+                    if (querySnapshot.empty) {
+                        console.log("No se encontraron caricaturas con ese nombre.");
+                        return;
+                    }
 
                     // Itera sobre los documentos que coinciden con el nombre de la caricatura y los elimina
-                    querySnapshot.forEach(async (doc) => {
+                    for (const doc of querySnapshot.docs) {
                         await deleteDoc(doc.ref);
                         console.log("Documento eliminado correctamente");
-                    });
-                        productform1.reset();
-                    } catch (error) {
-                        console.error("Error al eliminar documento: ", error);
                     }
+
+                    // Resetea el formulario después de eliminar los documentos
+                    productform1.reset();
+                } catch (error) {
+                    console.error("Error al eliminar documento: ", error);
+                }
             });
       </script>
 </body>
