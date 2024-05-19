@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Gestion Caricaturas</title>
+</head>
+<body>
+    <h1>Gestion de Caricaturas</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Ingreso de Caricaturas</h1>
+            <form id="form-product-insert">
+                <input id="nombreCaricatura" type="text" placeholder="Ingrese Nombre de caricatura"><br>
+                <input id="year" type="text" placeholder="Ingrese Año de lanzamiento"><br>
+                <input id="creador" type="text" placeholder="Ingrese Creador(es)"><br>
+                <input id="genero" type="text" placeholder="Ingrese Género"><br>
+                <input id="pais" type="text" placeholder="Ingrese País de origen"><br>
+                <input id="personajes" type="text" placeholder="Ingrese Personajes principales"><br>
+                <input id="duracion" type="text" placeholder="Ingrese Duración de los episodios"><br>
+                <input id="temporadas" type="text" placeholder="Ingrese Número de temporadas"><br>
+                <input id="vigencia" type="text" placeholder="Ingrese Vigencia activa o innactiva"><br>
+                <input id="popularidad" type="text" placeholder="Ingrese Popularidad"><br>
+                <button type="submit">Agregar Caricatura</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyAR90GkbgycFNWawhAs1dQfxLpy1YVeHBE",
+          authDomain: "crudcaricaturas.firebaseapp.com",
+          projectId: "crudcaricaturas",
+          storageBucket: "crudcaricaturas.appspot.com",
+          messagingSenderId: "476967965053",
+          appId: "1:476967965053:web:3448a610e9acb523a23c14",
+          measurementId: "G-TLEPPN0Y9X"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        const productform = document.getElementById("form-product-insert");
+        productform.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db,"caricaturas"),{
+                nombre: productform.nombreCaricatura.value,
+                year: productform.year.value,
+                creador: productform.creador.value,
+                genero: productform.genero.value,
+                pais: productform.pais.value,
+                personajes: productform.personajes.value,
+                duracion: productform.duracion.value,
+                temporadas: productform.temporadas.value,
+                vigencia: productform.vigencia.value,
+                popularidad: productform.popularidad.value,
+            });
+            productform.reset();
+        });
+    </script>
+</body>
+</html>
