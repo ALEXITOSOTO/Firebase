@@ -86,6 +86,29 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1 style="color: #37d1f6;">Datos de Caricaturas</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Año</th>
+                        <th>Creador(es)</th>
+                        <th>Género</th>
+                        <th>País</th>
+                        <th>Personajes</th>
+                        <th>Duración</th>
+                        <th>Temporadas</th>
+                        <th>Vigencia</th>
+                        <th>Popularidad</th>
+                    </tr>
+                </thead>
+                <tbody id="caricaturasTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+    
 
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -96,19 +119,17 @@
 
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
-      
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-          apiKey: "AIzaSyBl98YMnGuEua8KD8aXPG2TeWlBz-7xEKA",
-          authDomain: "futbol-953ae.firebaseapp.com",
-          projectId: "futbol-953ae",
-          storageBucket: "futbol-953ae.appspot.com",
-          messagingSenderId: "580514350036",
-          appId: "1:580514350036:web:e471b2d2e9485a52d10c41",
-          measurementId: "G-F614L2EHS5"
+        apiKey: "AIzaSyBl98YMnGuEua8KD8aXPG2TeWlBz-7xEKA",
+        authDomain: "futbol-953ae.firebaseapp.com",
+        projectId: "futbol-953ae",
+        storageBucket: "futbol-953ae.appspot.com",
+        messagingSenderId: "580514350036",
+        appId: "1:580514350036:web:e471b2d2e9485a52d10c41",
+        measurementId: "G-F614L2EHS5"
         };
-      
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -241,6 +262,42 @@
                 document.getElementById("vigenciaLeerResult").value = caricaturaData.vigencia;
                 document.getElementById("popularidadLeerResult").value = caricaturaData.popularidad;
             });
+// Leer datos de Firebase y mostrar en la tabla
+const caricaturasTableBody = document.getElementById("caricaturasTableBody");
+
+// Función para mostrar los datos en la tabla
+function mostrarDatosEnTabla(snapshot) {
+    caricaturasTableBody.innerHTML = ""; // Limpiar la tabla antes de agregar nuevos datos
+
+    snapshot.forEach((doc) => {
+        const caricaturaData = doc.data();
+        const row = `
+            <tr>
+                <td>${caricaturaData.nombre}</td>
+                <td>${caricaturaData.year}</td>
+                <td>${caricaturaData.creador}</td>
+                <td>${caricaturaData.genero}</td>
+                <td>${caricaturaData.pais}</td>
+                <td>${caricaturaData.personajes}</td>
+                <td>${caricaturaData.duracion}</td>
+                <td>${caricaturaData.temporadas}</td>
+                <td>${caricaturaData.vigencia}</td>
+                <td>${caricaturaData.popularidad}</td>
+            </tr>
+        `;
+        caricaturasTableBody.innerHTML += row;
+    });
+}
+
+// Observar cambios en la base de datos y actualizar la tabla
+onSnapshot(collection(db, "caricaturas"), (snapshot) => {
+    mostrarDatosEnTabla(snapshot);
+});
+
+// Mostrar datos por primera vez al cargar la página
+getDocs(collection(db, "caricaturas")).then((snapshot) => {
+    mostrarDatosEnTabla(snapshot);
+});
 
     </script>
 </body>
