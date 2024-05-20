@@ -8,13 +8,27 @@
 </head>
 
 <body style="background-color: #212529; margin: 2vh;">
-    <h1 style="background-color: #032830; text-align: center;color: aquamarine;">Gestion de Caricaturas</h1>
+    <h1 style="background-color: #032830; text-align: center; color: aquamarine;">Gestion de Caricaturas</h1>
     <div class="row">
         <div class="col-md-6">
             <h1 style="color: #37d1f6;">Ingreso de Caricaturas</h1>
             <form id="form-product-insert">
-                <!-- Formulario de ingreso -->
-                <!-- ... (omito el formulario por brevedad) ... -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <input id="nombreCaricatura" type="text" placeholder="Ingrese Nombre de caricatura" class="form-control"><br>
+                        <input id="year" type="number" placeholder="Ingrese Año de lanzamiento" class="form-control"><br>
+                        <input id="creador" type="text" placeholder="Ingrese Creador(es)" class="form-control"><br>
+                        <input id="genero" type="text" placeholder="Ingrese Género" class="form-control"><br>
+                        <input id="pais" type="text" placeholder="Ingrese País de origen" class="form-control"><br>
+                    </div>
+                    <div class="col-md-6">
+                        <input id="personajes" type="text" placeholder="Ingrese Personajes principales" class="form-control"><br>
+                        <input id="duracion" type="number" placeholder="Ingrese Duración de los episodios" class="form-control"><br>
+                        <input id="temporadas" type="number" placeholder="Ingrese Número de temporadas" class="form-control"><br>
+                        <input id="vigencia" type="text" placeholder="Ingrese Vigencia activa o inactiva" class="form-control"><br>
+                        <input id="popularidad" type="text" placeholder="Ingrese Popularidad" class="form-control"><br>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-outline-success btn-lg">Agregar Caricatura</button>
             </form>
         </div>
@@ -44,22 +58,26 @@
     </div>
 
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, query, where, getDocs, updateDoc, doc } 
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, updateDoc, doc, getDoc } 
         from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-        // Firebase configuration
         const firebaseConfig = {
-          // Your Firebase configuration
+            apiKey: "your-api-key",
+            authDomain: "your-auth-domain",
+            projectId: "your-project-id",
+            storageBucket: "your-storage-bucket",
+            messagingSenderId: "your-messaging-sender-id",
+            appId: "your-app-id",
+            measurementId: "your-measurement-id"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Insertar caricatura
         const productform = document.getElementById("form-product-insert");
+        const tableBody = document.getElementById('caricaturas-table').getElementsByTagName('tbody')[0];
+
         productform.addEventListener("submit", async (e) => {
             e.preventDefault();
             await addDoc(collection(db, "caricaturas"), {
@@ -77,11 +95,9 @@
             productform.reset();
         });
 
-        // Función para cargar caricaturas en la tabla
         const cargarCaricaturas = () => {
-            const tableBody = document.getElementById('caricaturas-table').getElementsByTagName('tbody')[0];
             onSnapshot(collection(db, "caricaturas"), (snapshot) => {
-                tableBody.innerHTML = ''; // Limpiar la tabla
+                tableBody.innerHTML = '';
                 snapshot.forEach((doc) => {
                     const caricatura = doc.data();
                     const row = tableBody.insertRow();
@@ -105,23 +121,15 @@
             });
         };
 
-        // Cargar caricaturas al iniciar
-        cargarCaricaturas();
-
-        // Eliminar caricatura
-        window.eliminarCaricatura = async (id) => {
+        const eliminarCaricatura = async (id) => {
             await deleteDoc(doc(db, "caricaturas", id));
         };
 
-        // Editar caricatura
-        window.editarCaricatura = async (id) => {
+        const editarCaricatura = async (id) => {
             const docRef = doc(db, "caricaturas", id);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 const caricatura = docSnap.data();
-                // Aquí puedes abrir un modal o llenar un formulario con los datos actuales
-                // y luego guardar los cambios de la misma manera que la inserción.
-                // Ejemplo simple:
                 productform.nombreCaricatura.value = caricatura.nombre;
                 productform.year.value = caricatura.year;
                 productform.creador.value = caricatura.creador;
@@ -133,7 +141,6 @@
                 productform.vigencia.value = caricatura.vigencia;
                 productform.popularidad.value = caricatura.popularidad;
 
-                // Cambia el evento del formulario para actualizar en lugar de insertar
                 productform.removeEventListener("submit", agregarCaricatura);
                 productform.addEventListener("submit", async (e) => {
                     e.preventDefault();
@@ -150,14 +157,12 @@
                         popularidad: productform.popularidad.value,
                     });
                     productform.reset();
-                    // Vuelve a establecer el evento de insertar
                     productform.removeEventListener("submit", actualizarCaricatura);
                     productform.addEventListener("submit", agregarCaricatura);
                 });
             }
         };
 
-        // Función de agregar caricatura (para reutilizar)
         const agregarCaricatura = async (e) => {
             e.preventDefault();
             await addDoc(collection(db, "caricaturas"), {
@@ -176,6 +181,10 @@
         };
 
         productform.addEventListener("submit", agregarCaricatura);
+        cargarCaricaturas();
+
+        window.eliminarCaricatura = eliminarCaricatura;
+        window.editarCaricatura = editarCaricatura;
     </script>
 </body>
 </html>
