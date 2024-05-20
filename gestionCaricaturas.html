@@ -86,7 +86,26 @@
             </div>
         </div>
     </div>
+    <h2>Detalle de Caricatura</h2>
 
+    <table id="caricaturaTable" border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Año</th>
+                <th>Creador</th>
+                <th>Género</th>
+                <th>País</th>
+                <th>Personajes</th>
+                <th>Duración</th>
+                <th>Temporadas</th>
+                <th>Vigencia</th>
+                <th>Popularidad</th>
+            </tr>
+        </thead>
+        <tbody id="caricaturaTableBody">
+        </tbody>
+    </table>
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -209,80 +228,40 @@
                 }
             });
             
-            // LEER CARICATURA
-const buscarCaricaturaLeerButton = document.getElementById("buscarCaricaturaLeer");
-const caricaturasTableBody = document.getElementById("caricaturasTableBody");
+            const caricaturaData = {
+        nombre: "Nombre de la Caricatura",
+        year: 2024,
+        creador: "Creador",
+        genero: "Género",
+        pais: "País",
+        personajes: "Personajes",
+        duracion: "Duración",
+        temporadas: 5,
+        vigencia: "Vigencia",
+        popularidad: "Popularidad"
+    };
 
-buscarCaricaturaLeerButton.addEventListener("click", async () => {
-    const nombreCaricaturaLeer = document.getElementById("nombreCaricaturaLeer").value;
+    // Función para crear una fila en la tabla con los datos de la caricatura
+    function mostrarCaricatura(caricatura) {
+        const tableBody = document.getElementById("caricaturaTableBody");
+        const row = tableBody.insertRow();
 
-    if (!nombreCaricaturaLeer) {
-        console.error("El nombre de la caricatura no puede estar vacío");
-        return;
+        // Inserta celdas con los datos de la caricatura
+        row.insertCell(0).textContent = caricatura.nombre;
+        row.insertCell(1).textContent = caricatura.year;
+        row.insertCell(2).textContent = caricatura.creador;
+        row.insertCell(3).textContent = caricatura.genero;
+        row.insertCell(4).textContent = caricatura.pais;
+        row.insertCell(5).textContent = caricatura.personajes;
+        row.insertCell(6).textContent = caricatura.duracion;
+        row.insertCell(7).textContent = caricatura.temporadas;
+        row.insertCell(8).textContent = caricatura.vigencia;
+        row.insertCell(9).textContent = caricatura.popularidad;
     }
 
-    const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaLeer));
-    const querySnapshot = await getDocs(caricaturaQuery);
-
-    if (querySnapshot.empty) {
-        console.log("No se encontraron caricaturas con ese nombre.");
-        return;
-    }
-
-    caricaturasTableBody.innerHTML = ""; // Limpiamos la tabla antes de agregar nuevas filas
-
-    querySnapshot.forEach(doc => {
-        const caricaturaData = doc.data();
-
-        // Crear una nueva fila de tabla
-        const newRow = document.createElement("tr");
-        
-        // Crear las celdas de la fila
-        const nombreCell = document.createElement("td");
-        nombreCell.textContent = caricaturaData.nombre;
-        newRow.appendChild(nombreCell);
-
-        const yearCell = document.createElement("td");
-        yearCell.textContent = caricaturaData.year;
-        newRow.appendChild(yearCell);
-
-        const creadorCell = document.createElement("td");
-        creadorCell.textContent = caricaturaData.creador;
-        newRow.appendChild(creadorCell);
-
-        const generoCell = document.createElement("td");
-        generoCell.textContent = caricaturaData.genero;
-        newRow.appendChild(generoCell);
-
-        const paisCell = document.createElement("td");
-        paisCell.textContent = caricaturaData.pais;
-        newRow.appendChild(paisCell);
-
-        const personajesCell = document.createElement("td");
-        personajesCell.textContent = caricaturaData.personajes;
-        newRow.appendChild(personajesCell);
-
-        const duracionCell = document.createElement("td");
-        duracionCell.textContent = caricaturaData.duracion;
-        newRow.appendChild(duracionCell);
-
-        const temporadasCell = document.createElement("td");
-        temporadasCell.textContent = caricaturaData.temporadas;
-        newRow.appendChild(temporadasCell);
-
-        const vigenciaCell = document.createElement("td");
-        vigenciaCell.textContent = caricaturaData.vigencia;
-        newRow.appendChild(vigenciaCell);
-
-        const popularidadCell = document.createElement("td");
-        popularidadCell.textContent = caricaturaData.popularidad;
-        newRow.appendChild(popularidadCell);
-
-        // Agregar la fila a la tabla
-        caricaturasTableBody.appendChild(newRow);
-    });
-});
-
+    // Llama a la función para mostrar la caricatura
+    mostrarCaricatura(caricaturaData);
+            
 
     </script>
 </body>
