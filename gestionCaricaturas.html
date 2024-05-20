@@ -15,18 +15,18 @@
             <form id="form-product-insert">
                 <div class="row">
                     <div class="col-md-6">
-                        <input id="nombreCaricatura" type="text" placeholder="Ingrese Nombre de caricatura" class="form-control"><br>
-                        <input id="year" type="number" placeholder="Ingrese Año de lanzamiento" class="form-control"><br>
-                        <input id="creador" type="text" placeholder="Ingrese Creador(es)" class="form-control"><br>
-                        <input id="genero" type="text" placeholder="Ingrese Género" class="form-control"><br>
-                        <input id="pais" type="text" placeholder="Ingrese País de origen" class="form-control"><br>
+                        <input id="nombreCaricatura" type="text" placeholder="Ingrese Nombre de caricatura" class="form-control" required><br>
+                        <input id="year" type="number" placeholder="Ingrese Año de lanzamiento" class="form-control" required><br>
+                        <input id="creador" type="text" placeholder="Ingrese Creador(es)" class="form-control" required><br>
+                        <input id="genero" type="text" placeholder="Ingrese Género" class="form-control" required><br>
+                        <input id="pais" type="text" placeholder="Ingrese País de origen" class="form-control" required><br>
                     </div>
                     <div class="col-md-6">
-                        <input id="personajes" type="text" placeholder="Ingrese Personajes principales" class="form-control"><br>
-                        <input id="duracion" type="number" placeholder="Ingrese Duración de los episodios" class="form-control"><br>
-                        <input id="temporadas" type="number" placeholder="Ingrese Número de temporadas" class="form-control"><br>
-                        <input id="vigencia" type="text" placeholder="Ingrese Vigencia activa o inactiva" class="form-control"><br>
-                        <input id="popularidad" type="text" placeholder="Ingrese Popularidad" class="form-control"><br>
+                        <input id="personajes" type="text" placeholder="Ingrese Personajes principales" class="form-control" required><br>
+                        <input id="duracion" type="number" placeholder="Ingrese Duración de los episodios" class="form-control" required><br>
+                        <input id="temporadas" type="number" placeholder="Ingrese Número de temporadas" class="form-control" required><br>
+                        <input id="vigencia" type="text" placeholder="Ingrese Vigencia activa o inactiva" class="form-control" required><br>
+                        <input id="popularidad" type="text" placeholder="Ingrese Popularidad" class="form-control" required><br>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-outline-success btn-lg">Agregar Caricatura</button>
@@ -81,19 +81,23 @@
         // Función para agregar una caricatura
         const agregarCaricatura = async (e) => {
             e.preventDefault();
-            await addDoc(collection(db, "caricaturas"), {
-                nombre: productform.nombreCaricatura.value,
-                year: productform.year.value,
-                creador: productform.creador.value,
-                genero: productform.genero.value,
-                pais: productform.pais.value,
-                personajes: productform.personajes.value,
-                duracion: productform.duracion.value,
-                temporadas: productform.temporadas.value,
-                vigencia: productform.vigencia.value,
-                popularidad: productform.popularidad.value,
-            });
-            productform.reset();
+            try {
+                await addDoc(collection(db, "caricaturas"), {
+                    nombre: productform.nombreCaricatura.value,
+                    year: productform.year.value,
+                    creador: productform.creador.value,
+                    genero: productform.genero.value,
+                    pais: productform.pais.value,
+                    personajes: productform.personajes.value,
+                    duracion: productform.duracion.value,
+                    temporadas: productform.temporadas.value,
+                    vigencia: productform.vigencia.value,
+                    popularidad: productform.popularidad.value,
+                });
+                productform.reset();
+            } catch (error) {
+                console.error("Error al agregar caricatura: ", error);
+            }
         };
 
         // Añadir evento para insertar caricatura solo una vez
@@ -128,45 +132,57 @@
 
         // Función para eliminar una caricatura
         const eliminarCaricatura = async (id) => {
-            await deleteDoc(doc(db, "caricaturas", id));
+            try {
+                await deleteDoc(doc(db, "caricaturas", id));
+            } catch (error) {
+                console.error("Error al eliminar caricatura: ", error);
+            }
         };
 
         // Función para editar una caricatura
         const editarCaricatura = async (id) => {
-            const docRef = doc(db, "caricaturas", id);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                const caricatura = docSnap.data();
-                productform.nombreCaricatura.value = caricatura.nombre;
-                productform.year.value = caricatura.year;
-                productform.creador.value = caricatura.creador;
-                productform.genero.value = caricatura.genero;
-                productform.pais.value = caricatura.pais;
-                productform.personajes.value = caricatura.personajes;
-                productform.duracion.value = caricatura.duracion;
-                productform.temporadas.value = caricatura.temporadas;
-                productform.vigencia.value = caricatura.vigencia;
-                productform.popularidad.value = caricatura.popularidad;
+            try {
+                const docRef = doc(db, "caricaturas", id);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const caricatura = docSnap.data();
+                    productform.nombreCaricatura.value = caricatura.nombre;
+                    productform.year.value = caricatura.year;
+                    productform.creador.value = caricatura.creador;
+                    productform.genero.value = caricatura.genero;
+                    productform.pais.value = caricatura.pais;
+                    productform.personajes.value = caricatura.personajes;
+                    productform.duracion.value = caricatura.duracion;
+                    productform.temporadas.value = caricatura.temporadas;
+                    productform.vigencia.value = caricatura.vigencia;
+                    productform.popularidad.value = caricatura.popularidad;
 
-                productform.removeEventListener("submit", agregarCaricatura);
-                productform.addEventListener("submit", async (e) => {
-                    e.preventDefault();
-                    await updateDoc(docRef, {
-                        nombre: productform.nombreCaricatura.value,
-                        year: productform.year.value,
-                        creador: productform.creador.value,
-                        genero: productform.genero.value,
-                        pais: productform.pais.value,
-                        personajes: productform.personajes.value,
-                        duracion: productform.duracion.value,
-                        temporadas: productform.temporadas.value,
-                        vigencia: productform.vigencia.value,
-                        popularidad: productform.popularidad.value,
+                    productform.removeEventListener("submit", agregarCaricatura);
+                    productform.addEventListener("submit", async (e) => {
+                        e.preventDefault();
+                        try {
+                            await updateDoc(docRef, {
+                                nombre: productform.nombreCaricatura.value,
+                                year: productform.year.value,
+                                creador: productform.creador.value,
+                                genero: productform.genero.value,
+                                pais: productform.pais.value,
+                                personajes: productform.personajes.value,
+                                duracion: productform.duracion.value,
+                                temporadas: productform.temporadas.value,
+                                vigencia: productform.vigencia.value,
+                                popularidad: productform.popularidad.value,
+                            });
+                            productform.reset();
+                            productform.removeEventListener("submit", actualizarCaricatura);
+                            productform.addEventListener("submit", agregarCaricatura);
+                        } catch (error) {
+                            console.error("Error al actualizar caricatura: ", error);
+                        }
                     });
-                    productform.reset();
-                    productform.removeEventListener("submit", actualizarCaricatura);
-                    productform.addEventListener("submit", agregarCaricatura);
-                });
+                }
+            } catch (error) {
+                console.error("Error al obtener caricatura: ", error);
             }
         };
 
