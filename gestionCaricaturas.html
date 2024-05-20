@@ -6,83 +6,117 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Gestion Caricaturas</title>
 </head>
-
 <body style="background-color: #212529; margin: 2vh;">
-    <h1 style="background-color: #032830; text-align: center; color: aquamarine;">Gestion de Caricaturas</h1>
+    <h1 style="background-color: #032830; text-align: center;color: aquamarine;">Gestion de Caricaturas</h1>
     <div class="row">
         <div class="col-md-6">
             <h1 style="color: #37d1f6;">Ingreso de Caricaturas</h1>
             <form id="form-product-insert">
                 <div class="row">
                     <div class="col-md-6">
-                        <input id="nombreCaricatura" type="text" placeholder="Ingrese Nombre de caricatura" class="form-control" required><br>
-                        <input id="year" type="number" placeholder="Ingrese Año de lanzamiento" class="form-control" required><br>
-                        <input id="creador" type="text" placeholder="Ingrese Creador(es)" class="form-control" required><br>
-                        <input id="genero" type="text" placeholder="Ingrese Género" class="form-control" required><br>
-                        <input id="pais" type="text" placeholder="Ingrese País de origen" class="form-control" required><br>
+                        <input id="nombreCaricatura" type="text" placeholder="Ingrese Nombre de caricatura" class="form-control"><br>
+                        <input id="year" type="number" placeholder="Ingrese Año de lanzamiento" class="form-control"><br>
+                        <input id="creador" type="text" placeholder="Ingrese Creador(es)" class="form-control"><br>
+                        <input id="genero" type="text" placeholder="Ingrese Género" class="form-control"><br>
+                        <input id="pais" type="text" placeholder="Ingrese País de origen" class="form-control"><br>
                     </div>
                     <div class="col-md-6">
-                        <input id="personajes" type="text" placeholder="Ingrese Personajes principales" class="form-control" required><br>
-                        <input id="duracion" type="number" placeholder="Ingrese Duración de los episodios" class="form-control" required><br>
-                        <input id="temporadas" type="number" placeholder="Ingrese Número de temporadas" class="form-control" required><br>
-                        <input id="vigencia" type="text" placeholder="Ingrese Vigencia activa o inactiva" class="form-control" required><br>
-                        <input id="popularidad" type="text" placeholder="Ingrese Popularidad" class="form-control" required><br>
-                    </div>
+                        <input id="personajes" type="text" placeholder="Ingrese Personajes principales" class="form-control"><br>
+                        <input id="duracion" type="number" placeholder="Ingrese Duración de los episodios" class="form-control"><br>
+                        <input id="temporadas" type="number" placeholder="Ingrese Número de temporadas" class="form-control"><br>
+                        <input id="vigencia" type="text" placeholder="Ingrese Vigencia activa o innactiva" class="form-control"><br>
+                        <input id="popularidad" type="text" placeholder="Ingrese Popularidad" class="form-control"><br>
+                    </div>        
                 </div>
                 <button type="submit" class="btn btn-outline-success btn-lg">Agregar Caricatura</button>
             </form>
         </div>
         <div class="col-md-6">
-            <h1 style="color: #37d1f6;">Listado de Caricaturas</h1>
-            <table id="caricaturas-table" class="table table-dark table-striped">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Año</th>
-                        <th>Creador</th>
-                        <th>Género</th>
-                        <th>País</th>
-                        <th>Personajes</th>
-                        <th>Duración</th>
-                        <th>Temporadas</th>
-                        <th>Vigencia</th>
-                        <th>Popularidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Aquí se insertarán las filas de caricaturas -->
-                </tbody>
-            </table>
+            <h1 style="color: #37d1f6;">Eliminacion de caricatura</h1>
+            <form id="form-product-delete">
+                <input id="nombreCaricaturaDelete" type="text" placeholder="Ingrese Nombre de caricatura a eliminar" class="form-control"><br>
+                <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+            </form>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h1 style="color: #37d1f6;">Actualizacion de caricatura</h1>
+            <form id="form-product-update">
+                <input id="nombreCaricaturaBuscar" type="text" placeholder="Ingrese Nombre de caricatura a actualizar" class="form-control"><br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input id="nombreCaricaturaUpdate" type="text" placeholder="Ingrese nuevo Nombre de caricatura" class="form-control"><br>
+                        <input id="yearUpdate" type="number" placeholder="Ingrese nuevo Año de lanzamiento" class="form-control"><br>
+                        <input id="creadorUpdate" type="text" placeholder="Ingrese nuevo Creador(es)" class="form-control"><br>
+                        <input id="generoUpdate" type="text" placeholder="Ingrese nuevo Género" class="form-control"><br>
+                        <input id="paisUpdate" type="text" placeholder="Ingrese nuevo País de origen" class="form-control"><br>
+                    </div>
+                    <div class="col-md-6">
+                        <input id="personajesUpdate" type="text" placeholder="Ingrese nuevo Personajes principales" class="form-control"><br>
+                        <input id="duracionUpdate" type="number" placeholder="Ingrese nuevo Duración de los episodios" class="form-control"><br>
+                        <input id="temporadasUpdate" type="number" placeholder="Ingrese nuevo Número de temporadas" class="form-control"><br>
+                        <input id="vigenciaUpdate" type="text" placeholder="Ingrese nuevo Vigencia activa o innactiva" class="form-control"><br>
+                        <input id="popularidadUpdate" type="text" placeholder="Ingrese nuevo Popularidad" class="form-control"><br>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-info">Actualizar Caricatura</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h1 style="color: #37d1f6;">Leer Caricatura</h1>
+            <label for="">Caricatura a Leer</label><input id="nombreCaricaturaLeer" type="text" placeholder="Ingrese Nombre de caricatura a leer" class="form-control"><br>
+            <button id="buscarCaricaturaLeer" type="button" class="btn btn-outline-warning" >Buscar Caricatura</button><br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="" style="color: #ffc751;">Nombre</label><br><input id="nombreCaricaturaLeerResult" type="text" placeholder="Nombre" readonly class="form-control"><br>
+                    <label for="" style="color: #ffc751;">Año de Publicacion</label><br><input id="yearLeerResult" type="text" placeholder="Año de lanzamiento" readonly class="form-control"><br>
+                    <label for="" style="color: #ffc751;">Creador(es)</label><br><input id="creadorLeerResult" type="text" placeholder="Creador(es)" readonly class="form-control"><br>
+                    <label for="" style="color: #ffc751;">Genero</label><br><input id="generoLeerResult" type="text" placeholder="Género" readonly class="form-control"><br>
+                    <label for="" style="color: #ffc751;">Pais</label><br><input id="paisLeerResult" type="text" placeholder="País de origen" readonly class="form-control"><br>
+                </div>
+                <div class="col-md-6">
+                    <label for="" style="color: #ffc751;">Personajes</label><br><input id="personajesLeerResult" type="text" placeholder="Personajes principales" readonly class="form-control"><br>
+                    <label for="" style="color: #ffc751;">Duracion</label><br><input id="duracionLeerResult" type="text" placeholder="Duración de los episodios" readonly class="form-control"><br>
+                    <label for="" style="color: #ffc751;">No. Tempordas</label><br><input id="temporadasLeerResult" type="text" placeholder="Número de temporadas" readonly class="form-control"><br>
+                    <label for="" style="color: #ffc751;">Vigencia</label><br><input id="vigenciaLeerResult" type="text" placeholder="Vigencia activa o innactiva" readonly class="form-control"><br>
+                    <label for="" style="color: #ffc751;">Popularidad</label><br><input id="popularidadLeerResult" type="text" placeholder="Popularidad" readonly class="form-control"><br>
+                </div>
+            </div>
         </div>
     </div>
 
     <script type="module">
+        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, updateDoc, doc, getDoc } 
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, query, where, getDocs, updateDoc, doc } 
         from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-            apiKey: "your-api-key",
-            authDomain: "your-auth-domain",
-            projectId: "your-project-id",
-            storageBucket: "your-storage-bucket",
-            messagingSenderId: "your-messaging-sender-id",
-            appId: "your-app-id",
-            measurementId: "your-measurement-id"
+          apiKey: "AIzaSyBl98YMnGuEua8KD8aXPG2TeWlBz-7xEKA",
+          authDomain: "futbol-953ae.firebaseapp.com",
+          projectId: "futbol-953ae",
+          storageBucket: "futbol-953ae.appspot.com",
+          messagingSenderId: "580514350036",
+          appId: "1:580514350036:web:e471b2d2e9485a52d10c41",
+          measurementId: "G-F614L2EHS5"
         };
-
+      
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
+        // INSERTAR CARICATURA
         const productform = document.getElementById("form-product-insert");
-        const tableBody = document.getElementById('caricaturas-table').getElementsByTagName('tbody')[0];
-
-        // Función para agregar una caricatura
-        const agregarCaricatura = async (e) => {
-            e.preventDefault();
-            try {
-                await addDoc(collection(db, "caricaturas"), {
+            productform.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                await addDoc(collection(db,"caricaturas"),{
                     nombre: productform.nombreCaricatura.value,
                     year: productform.year.value,
                     creador: productform.creador.value,
@@ -95,78 +129,118 @@
                     popularidad: productform.popularidad.value,
                 });
                 productform.reset();
-            } catch (error) {
-                console.error("Error al agregar caricatura: ", error);
-            }
-        };
-
-        // Añadir evento para insertar caricatura solo una vez
-        productform.addEventListener("submit", agregarCaricatura);
-
-        // Función para cargar las caricaturas en la tabla
-        const cargarCaricaturas = () => {
-            onSnapshot(collection(db, "caricaturas"), (snapshot) => {
-                tableBody.innerHTML = '';
-                snapshot.forEach((doc) => {
-                    const caricatura = doc.data();
-                    const row = tableBody.insertRow();
-                    row.innerHTML = `
-                        <td contenteditable="true">${caricatura.nombre}</td>
-                        <td contenteditable="true">${caricatura.year}</td>
-                        <td contenteditable="true">${caricatura.creador}</td>
-                        <td contenteditable="true">${caricatura.genero}</td>
-                        <td contenteditable="true">${caricatura.pais}</td>
-                        <td contenteditable="true">${caricatura.personajes}</td>
-                        <td contenteditable="true">${caricatura.duracion}</td>
-                        <td contenteditable="true">${caricatura.temporadas}</td>
-                        <td contenteditable="true">${caricatura.vigencia}</td>
-                        <td contenteditable="true">${caricatura.popularidad}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick
-                            onclick="guardarEdicion(this, '${doc.id}')">Guardar</button>
-                            <button class="btn btn-danger btn-sm" onclick="eliminarCaricatura('${doc.id}')">Eliminar</button>
-                        </td>
-                    `;
-                });
             });
-        };
 
-        // Función para guardar la edición de una caricatura
-        const guardarEdicion = async (button, id) => {
-            const row = button.closest('tr');
-            const updatedCaricatura = {
-                nombre: row.cells[0].innerText,
-                year: row.cells[1].innerText,
-                creador: row.cells[2].innerText,
-                genero: row.cells[3].innerText,
-                pais: row.cells[4].innerText,
-                personajes: row.cells[5].innerText,
-                duracion: row.cells[6].innerText,
-                temporadas: row.cells[7].innerText,
-                vigencia: row.cells[8].innerText,
-                popularidad: row.cells[9].innerText
-            };
+            // ELIMINAR CARICATURA
+            const productform1 = document.getElementById("form-product-delete");
+            productform1.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                try {
+                    // Obtiene el nombre de la caricatura que deseas eliminar
+                    const nombreCaricaturaDelete = productform1.nombreCaricaturaDelete.value;
 
-            try {
-                const docRef = doc(db, "caricaturas", id);
-                await updateDoc(docRef, updatedCaricatura);
-            } catch (error) {
-                console.error("Error al actualizar caricatura: ", error);
-            }
-        };
+                    // Verifica que el nombre de la caricatura no esté vacío
+                    if (!nombreCaricaturaDelete) {
+                        console.error("El nombre de la caricatura no puede estar vacío");
+                        return;
+                    }
 
-        // Función para eliminar una caricatura
-        const eliminarCaricatura = async (id) => {
-            try {
-                await deleteDoc(doc(db, "caricaturas", id));
-            } catch (error) {
-                console.error("Error al eliminar caricatura: ", error);
-            }
-        };
+                    // Consulta la colección "caricaturas" para encontrar el documento que coincida con el nombre de la caricatura
+                    const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaDelete));
+                    const querySnapshot = await getDocs(caricaturaQuery);
 
-        cargarCaricaturas();
-        window.eliminarCaricatura = eliminarCaricatura;
-        window.guardarEdicion = guardarEdicion;
-    </script>
+                    // Verifica si existen documentos con ese nombre
+                    if (querySnapshot.empty) {
+                        console.log("No se encontraron caricaturas con ese nombre.");
+                        return;
+                    }
+
+                    // Itera sobre los documentos que coinciden con el nombre de la caricatura y los elimina
+                    for (const doc of querySnapshot.docs) {
+                        await deleteDoc(doc.ref);
+                        console.log("Documento eliminado correctamente");
+                    }
+
+                    // Resetea el formulario después de eliminar los documentos
+                    productform1.reset();
+                } catch (error) {
+                    console.error("Error al eliminar documento: ", error);
+                }
+            });
+
+            // ACTUALIZAR CARICATURA
+            const productform2 = document.getElementById("form-product-update");
+            productform2.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                try {
+                    const nombreCaricaturaBuscar = productform2.nombreCaricaturaBuscar.value;
+
+                    if (!nombreCaricaturaBuscar) {
+                        console.error("El nombre de la caricatura no puede estar vacío");
+                        return;
+                    }
+
+                    const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaBuscar));
+                    const querySnapshot = await getDocs(caricaturaQuery);
+
+                    if (querySnapshot.empty) {
+                        console.log("No se encontraron caricaturas con ese nombre.");
+                        return;
+                    }
+
+                    const docRef = querySnapshot.docs[0].ref;
+                    await updateDoc(docRef, {
+                        nombre: productform2.nombreCaricaturaUpdate.value,
+                        year: productform2.yearUpdate.value,
+                        creador: productform2.creadorUpdate.value,
+                        genero: productform2.generoUpdate.value,
+                        pais: productform2.paisUpdate.value,
+                        personajes: productform2.personajesUpdate.value,
+                        duracion: productform2.duracionUpdate.value,
+                        temporadas: productform2.temporadasUpdate.value,
+                        vigencia: productform2.vigenciaUpdate.value,
+                        popularidad: productform2.popularidadUpdate.value,
+                    });
+                    console.log("Documento actualizado correctamente");
+
+                    productform2.reset();
+                } catch (error) {
+                    console.error("Error al actualizar documento: ", error);
+                }
+            });
+            
+            // LEER CARICATURA
+            const buscarCaricaturaLeerButton = document.getElementById("buscarCaricaturaLeer");
+            buscarCaricaturaLeerButton.addEventListener("click", async () => {
+                const nombreCaricaturaLeer = document.getElementById("nombreCaricaturaLeer").value;
+
+                if (!nombreCaricaturaLeer) {
+                    console.error("El nombre de la caricatura no puede estar vacío");
+                    return;
+                }
+
+                const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaLeer));
+                const querySnapshot = await getDocs(caricaturaQuery);
+
+                if (querySnapshot.empty) {
+                    console.log("No se encontraron caricaturas con ese nombre.");
+                    return;
+                }
+
+                const caricaturaData = querySnapshot.docs[0].data();
+
+                document.getElementById("nombreCaricaturaLeerResult").value = caricaturaData.nombre;
+                document.getElementById("yearLeerResult").value = caricaturaData.year;
+                document.getElementById("creadorLeerResult").value = caricaturaData.creador;
+                document.getElementById("generoLeerResult").value = caricaturaData.genero;
+                document.getElementById("paisLeerResult").value = caricaturaData.pais;
+                document.getElementById("personajesLeerResult").value = caricaturaData.personajes;
+                document.getElementById("duracionLeerResult").value = caricaturaData.duracion;
+                document.getElementById("temporadasLeerResult").value = caricaturaData.temporadas;
+                document.getElementById("vigenciaLeerResult").value = caricaturaData.vigencia;
+                document.getElementById("popularidadLeerResult").value = caricaturaData.popularidad;
+            });
+
+      </script>
 </body>
 </html>
