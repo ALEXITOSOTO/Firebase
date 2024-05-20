@@ -155,24 +155,35 @@
 
             // ELIMINAR CARICATURA
             // Función para eliminar una caricatura
-async function eliminarCaricatura(docId) {
-    try {
-        // Eliminar la caricatura de la base de datos
-        await deleteDoc(doc(db, "caricaturas", docId));
-        console.log("Caricatura eliminada correctamente de la base de datos");
+            async function eliminarCaricatura(docId) {
+                try {
+                    // Eliminar la caricatura de la base de datos
+                    await deleteDoc(doc(db, "caricaturas", docId));
+                    console.log("Caricatura eliminada correctamente de la base de datos");
 
-        // Eliminar la fila correspondiente de la tabla
-        const row = document.getElementById(docId);
-        if (row) {
-            row.remove();
-            console.log("Fila de la tabla eliminada correctamente");
-        } else {
-            console.error("No se encontró la fila de la tabla");
-        }
-    } catch (error) {
-        console.error("Error al eliminar caricatura: ", error);
-    }
-}
+                    // Eliminar la fila correspondiente de la tabla
+                    const row = document.getElementById(docId);
+                    if (row) {
+                        row.remove();
+                        console.log("Fila de la tabla eliminada correctamente");
+                    } else {
+                        console.error("No se encontró la fila de la tabla");
+                    }
+                } catch (error) {
+                    console.error("Error al eliminar caricatura: ", error);
+                }
+            }
+
+            // Escuchar clics en la tabla para manejar los clics en los botones de eliminar
+            document.getElementById("caricaturasTableBody").addEventListener("click", function(event) {
+                // Comprobar si el clic ocurrió en un botón de eliminar
+                if (event.target.classList.contains("btn-eliminar")) {
+                    // Obtener el ID del documento de la fila
+                    const docId = event.target.closest("tr").id;
+                    // Llamar a la función eliminarCaricatura con el ID del documento
+                    eliminarCaricatura(docId);
+                }
+            });
 
             // ACTUALIZAR CARICATURA
             const productform2 = document.getElementById("form-product-update");
@@ -218,41 +229,32 @@ async function eliminarCaricatura(docId) {
             
             
                 //AAAAAAAAAAAAAAAAA
-                const caricaturasTableBody = document.getElementById("caricaturasTableBody");
-
-                
                 function mostrarDatosEnTabla(snapshot) {
-                caricaturasTableBody.innerHTML = ""; 
+    caricaturasTableBody.innerHTML = ""; // Limpiar la tabla antes de agregar nuevos datos
 
-                snapshot.forEach((doc) => {
-                    const caricaturaData = doc.data();
-                    const row = `
-                        <tr>
-                            <td>${caricaturaData.nombre}</td>
-                            <td>${caricaturaData.year}</td>
-                            <td>${caricaturaData.creador}</td>
-                            <td>${caricaturaData.genero}</td>
-                            <td>${caricaturaData.pais}</td>
-                            <td>${caricaturaData.personajes}</td>
-                            <td>${caricaturaData.duracion}</td>
-                            <td>${caricaturaData.temporadas}</td>
-                            <td>${caricaturaData.vigencia}</td>
-                            <td>${caricaturaData.popularidad}</td>
-                            <td>
-                                <button onclick="eliminarCaricatura('${doc.id}')" class="btn btn-danger">Eliminar</button>
-                                <button onclick="guardarCambios('${doc.id}')" class="btn btn-success">Guardar</button>
-                            </td>
-                        </tr>
-                    `;
-                    caricaturasTableBody.innerHTML += row;
-                });
-            }
-            onSnapshot(collection(db, "caricaturas"), (snapshot) => {
-                mostrarDatosEnTabla(snapshot);
-            });
-            getDocs(collection(db, "caricaturas")).then((snapshot) => {
-                mostrarDatosEnTabla(snapshot);
-            });
+    snapshot.forEach((doc) => {
+        const caricaturaData = doc.data();
+        const row = `
+            <tr id="${doc.id}"> <!-- Agrega el id del documento como el id de la fila -->
+                <td>${caricaturaData.nombre}</td>
+                <td>${caricaturaData.year}</td>
+                <td>${caricaturaData.creador}</td>
+                <td>${caricaturaData.genero}</td>
+                <td>${caricaturaData.pais}</td>
+                <td>${caricaturaData.personajes}</td>
+                <td>${caricaturaData.duracion}</td>
+                <td>${caricaturaData.temporadas}</td>
+                <td>${caricaturaData.vigencia}</td>
+                <td>${caricaturaData.popularidad}</td>
+                <td>
+                    <button class="btn btn-danger btn-eliminar">Eliminar</button>
+                    <button class="btn btn-success">Guardar</button>
+                </td>
+            </tr>
+        `;
+        caricaturasTableBody.innerHTML += row;
+    });
+}
 
             
         </script>
