@@ -158,6 +158,7 @@
             });
 
             //ACTUALIZAR CARICATURA
+            
             const productform2 = document.getElementById("form-product-update");
             productform2.addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -238,6 +239,7 @@
                         // Llamar a la función eliminarCaricatura con el ID del documento
                         eliminarCaricatura(docId);
                     }
+
                 });
 
                 onSnapshot(collection(db, "caricaturas"), (snapshot) => {
