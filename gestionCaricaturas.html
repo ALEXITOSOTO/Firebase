@@ -185,7 +185,7 @@
                 }
             });
 
-            // ACTUALIZAR CARICATURA
+            /* ACTUALIZAR CARICATURA
             const productform2 = document.getElementById("form-product-update");
             productform2.addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -224,46 +224,58 @@
                 } catch (error) {
                     console.error("Error al actualizar documento: ", error);
                 }
-            });
+            });*/
             
             
             
                 //AAAAAAAAAAAAAAAAA
                 const caricaturasTableBody = document.getElementById("caricaturasTableBody");
 
-                
-                function mostrarDatosEnTabla(snapshot) {
-                caricaturasTableBody.innerHTML = ""; 
+function mostrarDatosEnTabla(snapshot) {
+    caricaturasTableBody.innerHTML = ""; 
 
-                snapshot.forEach((doc) => {
-                    const caricaturaData = doc.data();
-                    const row = `
-                        <tr>
-                            <td>${caricaturaData.nombre}</td>
-                            <td>${caricaturaData.year}</td>
-                            <td>${caricaturaData.creador}</td>
-                            <td>${caricaturaData.genero}</td>
-                            <td>${caricaturaData.pais}</td>
-                            <td>${caricaturaData.personajes}</td>
-                            <td>${caricaturaData.duracion}</td>
-                            <td>${caricaturaData.temporadas}</td>
-                            <td>${caricaturaData.vigencia}</td>
-                            <td>${caricaturaData.popularidad}</td>
-                            <td>
-                                <button onclick="eliminarCaricatura(docId)" class="btn btn-danger">Eliminar</button>
-                                <button onclick="guardarCambios('${doc.id}')" class="btn btn-success">Guardar</button>
-                            </td>
-                        </tr>
-                    `;
-                    caricaturasTableBody.innerHTML += row;
-                });
-            }
-            onSnapshot(collection(db, "caricaturas"), (snapshot) => {
-                mostrarDatosEnTabla(snapshot);
-            });
-            getDocs(collection(db, "caricaturas")).then((snapshot) => {
-                mostrarDatosEnTabla(snapshot);
-            });
+    snapshot.forEach((doc) => {
+        const caricaturaData = doc.data();
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${caricaturaData.nombre}</td>
+            <td>${caricaturaData.year}</td>
+            <td>${caricaturaData.creador}</td>
+            <td>${caricaturaData.genero}</td>
+            <td>${caricaturaData.pais}</td>
+            <td>${caricaturaData.personajes}</td>
+            <td>${caricaturaData.duracion}</td>
+            <td>${caricaturaData.temporadas}</td>
+            <td>${caricaturaData.vigencia}</td>
+            <td>${caricaturaData.popularidad}</td>
+            <td>
+                <button data-doc-id="${doc.id}" class="btn-eliminar btn btn-danger">Eliminar</button>
+                <button data-doc-id="${doc.id}" class="btn-guardar btn btn-success">Guardar</button>
+            </td>
+        `;
+        caricaturasTableBody.appendChild(row);
+    });
+}
+
+// Escuchar clics en la tabla para manejar los clics en los botones de eliminar
+caricaturasTableBody.addEventListener("click", function(event) {
+    // Comprobar si el clic ocurrió en un botón de eliminar
+    if (event.target.classList.contains("btn-eliminar")) {
+        // Obtener el ID del documento de la caricatura
+        const docId = event.target.getAttribute('data-doc-id');
+        // Llamar a la función eliminarCaricatura con el ID del documento
+        eliminarCaricatura(docId);
+    }
+});
+
+onSnapshot(collection(db, "caricaturas"), (snapshot) => {
+    mostrarDatosEnTabla(snapshot);
+});
+
+getDocs(collection(db, "caricaturas")).then((snapshot) => {
+    mostrarDatosEnTabla(snapshot);
+});
+
 
             
         </script>
