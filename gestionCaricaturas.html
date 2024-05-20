@@ -262,43 +262,77 @@
                 document.getElementById("vigenciaLeerResult").value = caricaturaData.vigencia;
                 document.getElementById("popularidadLeerResult").value = caricaturaData.popularidad;
             });
-// Leer datos de Firebase y mostrar en la tabla
-const caricaturasTableBody = document.getElementById("caricaturasTableBody");
+            // Leer datos de Firebase y mostrar en la tabla
+            const caricaturasTableBody = document.getElementById("caricaturasTableBody");
 
-// Función para mostrar los datos en la tabla
-function mostrarDatosEnTabla(snapshot) {
-    caricaturasTableBody.innerHTML = ""; // Limpiar la tabla antes de agregar nuevos datos
+            // Función para mostrar los datos en la tabla
+            function mostrarDatosEnTabla(snapshot) {
+                caricaturasTableBody.innerHTML = ""; // Limpiar la tabla antes de agregar nuevos datos
 
-    snapshot.forEach((doc) => {
-        const caricaturaData = doc.data();
-        const row = `
-            <tr>
-                <td>${caricaturaData.nombre}</td>
-                <td>${caricaturaData.year}</td>
-                <td>${caricaturaData.creador}</td>
-                <td>${caricaturaData.genero}</td>
-                <td>${caricaturaData.pais}</td>
-                <td>${caricaturaData.personajes}</td>
-                <td>${caricaturaData.duracion}</td>
-                <td>${caricaturaData.temporadas}</td>
-                <td>${caricaturaData.vigencia}</td>
-                <td>${caricaturaData.popularidad}</td>
-            </tr>
-        `;
-        caricaturasTableBody.innerHTML += row;
-    });
+                snapshot.forEach((doc) => {
+                    const caricaturaData = doc.data();
+                    const row = `
+                        <tr>
+                            <td>${caricaturaData.nombre}</td>
+                            <td>${caricaturaData.year}</td>
+                            <td>${caricaturaData.creador}</td>
+                            <td>${caricaturaData.genero}</td>
+                            <td>${caricaturaData.pais}</td>
+                            <td>${caricaturaData.personajes}</td>
+                            <td>${caricaturaData.duracion}</td>
+                            <td>${caricaturaData.temporadas}</td>
+                            <td>${caricaturaData.vigencia}</td>
+                            <td>${caricaturaData.popularidad}</td>
+                        </tr>
+                    `;
+                    caricaturasTableBody.innerHTML += row;
+                });
+            }
+
+            // Observar cambios en la base de datos y actualizar la tabla
+            onSnapshot(collection(db, "caricaturas"), (snapshot) => {
+                mostrarDatosEnTabla(snapshot);
+            });
+
+            // Mostrar datos por primera vez al cargar la página
+            getDocs(collection(db, "caricaturas")).then((snapshot) => {
+                mostrarDatosEnTabla(snapshot);
+            });
+
+            // Función para actualizar los datos en Firebase y en la tabla
+async function actualizarDatos(docRef, newData) {
+    try {
+        await updateDoc(docRef, newData);
+        console.log("Documento actualizado correctamente en Firebase");
+
+        // Actualizar la tabla localmente
+        caricaturasTableBody.innerHTML = ""; // Limpiar la tabla
+        getDocs(collection(db, "caricaturas")).then((snapshot) => {
+            mostrarDatosEnTabla(snapshot);
+        });
+    } catch (error) {
+        console.error("Error al actualizar documento en Firebase: ", error);
+    }
 }
 
-// Observar cambios en la base de datos y actualizar la tabla
-onSnapshot(collection(db, "caricaturas"), (snapshot) => {
-    mostrarDatosEnTabla(snapshot);
+// Escuchar eventos de cambio en las celdas editables y actualizar los datos
+caricaturasTableBody.addEventListener("input", (e) => {
+    const target = e.target;
+    const row = target.parentElement.parentElement;
+    const nombreCaricatura = row.cells[0].textContent;
+    const field = target.dataset.field;
+
+    const newData = { [field]: target.textContent };
+    const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricatura));
+
+    getDocs(caricaturaQuery).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const docRef = doc.ref;
+            actualizarDatos(docRef, newData);
+        });
+    });
 });
 
-// Mostrar datos por primera vez al cargar la página
-getDocs(collection(db, "caricaturas")).then((snapshot) => {
-    mostrarDatosEnTabla(snapshot);
-});
-
-    </script>
+        </script>
 </body>
 </html>
