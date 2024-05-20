@@ -31,13 +31,6 @@
                 <button type="submit" class="btn btn-outline-success btn-lg">Agregar Caricatura</button>
             </form>
         </div>
-        <div class="col-md-6">
-            <h1 style="color: #37d1f6;">Eliminacion de caricatura</h1>
-            <form id="form-product-delete">
-                <input id="nombreCaricaturaDelete" type="text" placeholder="Ingrese Nombre de caricatura a eliminar" class="form-control"><br>
-                <button type="submit" class="btn btn-outline-danger">Eliminar</button>
-            </form>
-        </div>
         
     </div>
     <div class="row">
@@ -185,7 +178,7 @@
                 }
             });
 
-            /* ACTUALIZAR CARICATURA
+            //ACTUALIZAR CARICATURA
             const productform2 = document.getElementById("form-product-update");
             productform2.addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -224,7 +217,7 @@
                 } catch (error) {
                     console.error("Error al actualizar documento: ", error);
                 }
-            });*/
+            });
             
             
             
@@ -257,14 +250,34 @@ function mostrarDatosEnTabla(snapshot) {
     });
 }
 
-// Escuchar clics en la tabla para manejar los clics en los botones de eliminar
-caricaturasTableBody.addEventListener("click", function(event) {
-    // Comprobar si el clic ocurrió en un botón de eliminar
-    if (event.target.classList.contains("btn-eliminar")) {
+// Escuchar clics en la tabla para manejar los clics en los botones de guardar
+caricaturasTableBody.addEventListener("click", async function(event) {
+    // Comprobar si el clic ocurrió en un botón de guardar
+    if (event.target.classList.contains("btn-guardar")) {
         // Obtener el ID del documento de la caricatura
         const docId = event.target.getAttribute('data-doc-id');
-        // Llamar a la función eliminarCaricatura con el ID del documento
-        eliminarCaricatura(docId);
+
+        try {
+            const docRef = doc(db, "caricaturas", docId);
+            const caricaturaData = (await getDoc(docRef)).data();
+            // Actualizar la caricatura con los nuevos valores de la tabla
+            await updateDoc(docRef, {
+                nombre: caricaturaData.nombre,
+                year: caricaturaData.year,
+                creador: caricaturaData.creador,
+                genero: caricaturaData.genero,
+                pais: caricaturaData.pais,
+                personajes: caricaturaData.personajes,
+                duracion: caricaturaData.duracion,
+                temporadas: caricaturaData.temporadas,
+                vigencia: caricaturaData.vigencia,
+                popularidad: caricaturaData.popularidad,
+            });
+            console.log("Caricatura actualizada correctamente");
+
+        } catch (error) {
+            console.error("Error al actualizar la caricatura: ", error);
+        }
     }
 });
 
