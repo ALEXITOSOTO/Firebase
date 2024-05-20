@@ -204,96 +204,51 @@
                 //AAAAAAAAAAAAAAAAA
                 const caricaturasTableBody = document.getElementById("caricaturasTableBody");
 
-function mostrarDatosEnTabla(snapshot) {
-    caricaturasTableBody.innerHTML = ""; 
+                function mostrarDatosEnTabla(snapshot) {
+                    caricaturasTableBody.innerHTML = ""; 
 
-    snapshot.forEach((doc) => {
-        const caricaturaData = doc.data();
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td><input type="text" value="${caricaturaData.nombre}" class="nombre"></td>
-            <td><input type="number" value="${caricaturaData.year}" class="year"></td>
-            <td><input type="text" value="${caricaturaData.creador}" class="creador"></td>
-            <td><input type="text" value="${caricaturaData.genero}" class="genero"></td>
-            <td><input type="text" value="${caricaturaData.pais}" class="pais"></td>
-            <td><input type="text" value="${caricaturaData.personajes}" class="personajes"></td>
-            <td><input type="text" value="${caricaturaData.duracion}" class="duracion"></td>
-            <td><input type="number" value="${caricaturaData.temporadas}" class="temporadas"></td>
-            <td><input type="text" value="${caricaturaData.vigencia}" class="vigencia"></td>
-            <td><input type="number" value="${caricaturaData.popularidad}" class="popularidad"></td>
-            <td>
-                <button data-doc-id="${doc.id}" class="btn-eliminar btn btn-danger">Eliminar</button>
-                <button data-doc-id="${doc.id}" class="btn-editar btn btn-success">Editar</button>
-            </td>
-        `;
-        caricaturasTableBody.appendChild(row);
-    });
-}
+                    snapshot.forEach((doc) => {
+                        const caricaturaData = doc.data();
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${caricaturaData.nombre}</td>
+                            <td>${caricaturaData.year}</td>
+                            <td>${caricaturaData.creador}</td>
+                            <td>${caricaturaData.genero}</td>
+                            <td>${caricaturaData.pais}</td>
+                            <td>${caricaturaData.personajes}</td>
+                            <td>${caricaturaData.duracion}</td>
+                            <td>${caricaturaData.temporadas}</td>
+                            <td>${caricaturaData.vigencia}</td>
+                            <td>${caricaturaData.popularidad}</td>
+                            <td>
+                                <button data-doc-id="${doc.id}" class="btn-eliminar btn btn-danger">Eliminar</button>
+                                <button data-doc-id="${doc.id}" class="btn-editar btn btn-success">Editar</button>
+                            </td>
+                        `;
+                        caricaturasTableBody.appendChild(row);
+                    });
+                }
 
-caricaturasTableBody.addEventListener("click", function(event) {
-    // Comprobar si el clic ocurrió en un botón de eliminar
-    if (event.target.classList.contains("btn-eliminar")) {
-        // Obtener el ID del documento de la caricatura
-        const docId = event.target.getAttribute('data-doc-id');
-        // Llamar a la función eliminarCaricatura con el ID del documento
-        eliminarCaricatura(docId);
-    }
-    // Comprobar si el clic ocurrió en un botón de editar
-    else if (event.target.classList.contains("btn-editar")) {
-        // Obtener la fila que contiene el botón de editar
-        const row = event.target.closest("tr");
-        // Obtener todos los campos de entrada dentro de esa fila
-        const inputs = row.querySelectorAll("input");
+                // Escuchar clics en la tabla para manejar los clics en los botones de eliminar
+                caricaturasTableBody.addEventListener("click", function(event) {
+                    // Comprobar si el clic ocurrió en un botón de eliminar
+                    if (event.target.classList.contains("btn-eliminar")) {
+                        // Obtener el ID del documento de la caricatura
+                        const docId = event.target.getAttribute('data-doc-id');
+                        // Llamar a la función eliminarCaricatura con el ID del documento
+                        eliminarCaricatura(docId);
+                    }
 
-        // Habilitar la edición de los campos de entrada
-        inputs.forEach(input => {
-            input.removeAttribute("readonly");
-        });
+                });
 
-        // Cambiar el texto del botón de editar a "Guardar"
-        event.target.textContent = "Guardar";
+                onSnapshot(collection(db, "caricaturas"), (snapshot) => {
+                    mostrarDatosEnTabla(snapshot);
+                });
 
-        // Cambiar la clase del botón de editar para diferenciarlo
-        event.target.classList.remove("btn-editar");
-        event.target.classList.add("btn-guardar");
-
-        // Cambiar el evento de clic para el botón a uno que maneje la acción de guardar
-        event.target.addEventListener("click", function() {
-            // Obtener el ID del documento de la caricatura
-            const docId = event.target.getAttribute('data-doc-id');
-            // Obtener los valores de los campos de entrada
-            const newData = {
-                nombre: row.querySelector(".nombre").value,
-                year: row.querySelector(".year").value,
-                creador: row.querySelector(".creador").value,
-                genero: row.querySelector(".genero").value,
-                pais: row.querySelector(".pais").value,
-                personajes: row.querySelector(".personajes").value,
-                duracion: row.querySelector(".duracion").value,
-                temporadas: row.querySelector(".temporadas").value,
-                vigencia: row.querySelector(".vigencia").value,
-                popularidad: row.querySelector(".popularidad").value
-            };
-
-            // Guardar los nuevos datos en Firebase
-            const docRef = doc(docId);
-            updateDoc(docRef, newData);
-
-            // Cambiar la clase del botón de guardar a la clase original
-            event.target.classList.remove("btn-guardar");
-            event.target.classList.add("btn-editar");
-        });
-    }
-});
-
-onSnapshot(collection(db, "caricaturas"), (snapshot) => {
-    mostrarDatosEnTabla(snapshot);
-});
-
-getDocs(collection(db, "caricaturas")).then((snapshot) => {
-    mostrarDatosEnTabla(snapshot);
-});
-
+                getDocs(collection(db, "caricaturas")).then((snapshot) => {
+                    mostrarDatosEnTabla(snapshot);
+                });
 
 
             
