@@ -154,41 +154,25 @@
             });
 
             // ELIMINAR CARICATURA
-            const productform1 = document.getElementById("form-product-delete");
-            productform1.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                try {
-                    // Obtiene el nombre de la caricatura que deseas eliminar
-                    const nombreCaricaturaDelete = productform1.nombreCaricaturaDelete.value;
+            // Función para eliminar una caricatura
+async function eliminarCaricatura(docId) {
+    try {
+        // Eliminar la caricatura de la base de datos
+        await deleteDoc(doc(db, "caricaturas", docId));
+        console.log("Caricatura eliminada correctamente de la base de datos");
 
-                    // Verifica que el nombre de la caricatura no esté vacío
-                    if (!nombreCaricaturaDelete) {
-                        console.error("El nombre de la caricatura no puede estar vacío");
-                        return;
-                    }
-
-                    // Consulta la colección "caricaturas" para encontrar el documento que coincida con el nombre de la caricatura
-                    const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaDelete));
-                    const querySnapshot = await getDocs(caricaturaQuery);
-
-                    // Verifica si existen documentos con ese nombre
-                    if (querySnapshot.empty) {
-                        console.log("No se encontraron caricaturas con ese nombre.");
-                        return;
-                    }
-
-                    // Itera sobre los documentos que coinciden con el nombre de la caricatura y los elimina
-                    for (const doc of querySnapshot.docs) {
-                        await deleteDoc(doc.ref);
-                        console.log("Documento eliminado correctamente");
-                    }
-
-                    // Resetea el formulario después de eliminar los documentos
-                    productform1.reset();
-                } catch (error) {
-                    console.error("Error al eliminar documento: ", error);
-                }
-            });
+        // Eliminar la fila correspondiente de la tabla
+        const row = document.getElementById(docId);
+        if (row) {
+            row.remove();
+            console.log("Fila de la tabla eliminada correctamente");
+        } else {
+            console.error("No se encontró la fila de la tabla");
+        }
+    } catch (error) {
+        console.error("Error al eliminar caricatura: ", error);
+    }
+}
 
             // ACTUALIZAR CARICATURA
             const productform2 = document.getElementById("form-product-update");
@@ -232,76 +216,40 @@
             });
             
             
-            // LEER CARICATURA
-            const buscarCaricaturaLeerButton = document.getElementById("buscarCaricaturaLeer");
-            buscarCaricaturaLeerButton.addEventListener("click", async () => {
-                const nombreCaricaturaLeer = document.getElementById("nombreCaricaturaLeer").value;
-
-                if (!nombreCaricaturaLeer) {
-                    console.error("El nombre de la caricatura no puede estar vacío");
-                    return;
-                }
-
-                const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaLeer));
-                const querySnapshot = await getDocs(caricaturaQuery);
-
-                if (querySnapshot.empty) {
-                    console.log("No se encontraron caricaturas con ese nombre.");
-                    return;
-                }
-
-                const caricaturaData = querySnapshot.docs[0].data();
-
-                document.getElementById("nombreCaricaturaLeerResult").value = caricaturaData.nombre;
-                document.getElementById("yearLeerResult").value = caricaturaData.year;
-                document.getElementById("creadorLeerResult").value = caricaturaData.creador;
-                document.getElementById("generoLeerResult").value = caricaturaData.genero;
-                document.getElementById("paisLeerResult").value = caricaturaData.pais;
-                document.getElementById("personajesLeerResult").value = caricaturaData.personajes;
-                document.getElementById("duracionLeerResult").value = caricaturaData.duracion;
-                document.getElementById("temporadasLeerResult").value = caricaturaData.temporadas;
-                document.getElementById("vigenciaLeerResult").value = caricaturaData.vigencia;
-                document.getElementById("popularidadLeerResult").value = caricaturaData.popularidad;
-            });
-
             
-            // Leer datos de Firebase y mostrar en la tabla
-            const caricaturasTableBody = document.getElementById("caricaturasTableBody");
+                //AAAAAAAAAAAAAAAAA
+                const caricaturasTableBody = document.getElementById("caricaturasTableBody");
 
-            // Función para mostrar los datos en la tabla
-            function mostrarDatosEnTabla(snapshot) {
-    caricaturasTableBody.innerHTML = ""; // Limpiar la tabla antes de agregar nuevos datos
+                
+                function mostrarDatosEnTabla(snapshot) {
+                caricaturasTableBody.innerHTML = ""; 
 
-    snapshot.forEach((doc) => {
-        const caricaturaData = doc.data();
-        const row = `
-            <tr>
-                <td>${caricaturaData.nombre}</td>
-                <td>${caricaturaData.year}</td>
-                <td>${caricaturaData.creador}</td>
-                <td>${caricaturaData.genero}</td>
-                <td>${caricaturaData.pais}</td>
-                <td>${caricaturaData.personajes}</td>
-                <td>${caricaturaData.duracion}</td>
-                <td>${caricaturaData.temporadas}</td>
-                <td>${caricaturaData.vigencia}</td>
-                <td>${caricaturaData.popularidad}</td>
-                <td>
-                    <button onclick="eliminarCaricatura('${doc.id}')" class="btn btn-danger">Eliminar</button>
-                    <button onclick="guardarCambios('${doc.id}')" class="btn btn-success">Guardar</button>
-                </td>
-            </tr>
-        `;
-        caricaturasTableBody.innerHTML += row;
-    });
-}
-
-            // Observar cambios en la base de datos y actualizar la tabla
+                snapshot.forEach((doc) => {
+                    const caricaturaData = doc.data();
+                    const row = `
+                        <tr>
+                            <td>${caricaturaData.nombre}</td>
+                            <td>${caricaturaData.year}</td>
+                            <td>${caricaturaData.creador}</td>
+                            <td>${caricaturaData.genero}</td>
+                            <td>${caricaturaData.pais}</td>
+                            <td>${caricaturaData.personajes}</td>
+                            <td>${caricaturaData.duracion}</td>
+                            <td>${caricaturaData.temporadas}</td>
+                            <td>${caricaturaData.vigencia}</td>
+                            <td>${caricaturaData.popularidad}</td>
+                            <td>
+                                <button onclick="eliminarCaricatura('${doc.id}')" class="btn btn-danger">Eliminar</button>
+                                <button onclick="guardarCambios('${doc.id}')" class="btn btn-success">Guardar</button>
+                            </td>
+                        </tr>
+                    `;
+                    caricaturasTableBody.innerHTML += row;
+                });
+            }
             onSnapshot(collection(db, "caricaturas"), (snapshot) => {
                 mostrarDatosEnTabla(snapshot);
             });
-
-            // Mostrar datos por primera vez al cargar la página
             getDocs(collection(db, "caricaturas")).then((snapshot) => {
                 mostrarDatosEnTabla(snapshot);
             });
