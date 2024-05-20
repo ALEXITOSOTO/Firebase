@@ -86,26 +86,7 @@
             </div>
         </div>
     </div>
-    <h2>Detalle de Caricatura</h2>
 
-    <table id="caricaturaTable" border="1">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Año</th>
-                <th>Creador</th>
-                <th>Género</th>
-                <th>País</th>
-                <th>Personajes</th>
-                <th>Duración</th>
-                <th>Temporadas</th>
-                <th>Vigencia</th>
-                <th>Popularidad</th>
-            </tr>
-        </thead>
-        <tbody id="caricaturaTableBody">
-        </tbody>
-    </table>
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -228,40 +209,38 @@
                 }
             });
             
-            const caricaturaData = {
-        nombre: "Nombre de la Caricatura",
-        year: 2024,
-        creador: "Creador",
-        genero: "Género",
-        pais: "País",
-        personajes: "Personajes",
-        duracion: "Duración",
-        temporadas: 5,
-        vigencia: "Vigencia",
-        popularidad: "Popularidad"
-    };
-
-    // Función para crear una fila en la tabla con los datos de la caricatura
-    function mostrarCaricatura(caricatura) {
-        const tableBody = document.getElementById("caricaturaTableBody");
-        const row = tableBody.insertRow();
-
-        // Inserta celdas con los datos de la caricatura
-        row.insertCell(0).textContent = caricatura.nombre;
-        row.insertCell(1).textContent = caricatura.year;
-        row.insertCell(2).textContent = caricatura.creador;
-        row.insertCell(3).textContent = caricatura.genero;
-        row.insertCell(4).textContent = caricatura.pais;
-        row.insertCell(5).textContent = caricatura.personajes;
-        row.insertCell(6).textContent = caricatura.duracion;
-        row.insertCell(7).textContent = caricatura.temporadas;
-        row.insertCell(8).textContent = caricatura.vigencia;
-        row.insertCell(9).textContent = caricatura.popularidad;
-    }
-
-    // Llama a la función para mostrar la caricatura
-    mostrarCaricatura(caricaturaData);
             
+            // LEER CARICATURA
+            const buscarCaricaturaLeerButton = document.getElementById("buscarCaricaturaLeer");
+            buscarCaricaturaLeerButton.addEventListener("click", async () => {
+                const nombreCaricaturaLeer = document.getElementById("nombreCaricaturaLeer").value;
+
+                if (!nombreCaricaturaLeer) {
+                    console.error("El nombre de la caricatura no puede estar vacío");
+                    return;
+                }
+
+                const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaLeer));
+                const querySnapshot = await getDocs(caricaturaQuery);
+
+                if (querySnapshot.empty) {
+                    console.log("No se encontraron caricaturas con ese nombre.");
+                    return;
+                }
+
+                const caricaturaData = querySnapshot.docs[0].data();
+
+                document.getElementById("nombreCaricaturaLeerResult").value = caricaturaData.nombre;
+                document.getElementById("yearLeerResult").value = caricaturaData.year;
+                document.getElementById("creadorLeerResult").value = caricaturaData.creador;
+                document.getElementById("generoLeerResult").value = caricaturaData.genero;
+                document.getElementById("paisLeerResult").value = caricaturaData.pais;
+                document.getElementById("personajesLeerResult").value = caricaturaData.personajes;
+                document.getElementById("duracionLeerResult").value = caricaturaData.duracion;
+                document.getElementById("temporadasLeerResult").value = caricaturaData.temporadas;
+                document.getElementById("vigenciaLeerResult").value = caricaturaData.vigencia;
+                document.getElementById("popularidadLeerResult").value = caricaturaData.popularidad;
+            });
 
     </script>
 </body>
