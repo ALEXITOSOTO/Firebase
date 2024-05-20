@@ -111,23 +111,47 @@
                     const caricatura = doc.data();
                     const row = tableBody.insertRow();
                     row.innerHTML = `
-                        <td>${caricatura.nombre}</td>
-                        <td>${caricatura.year}</td>
-                        <td>${caricatura.creador}</td>
-                        <td>${caricatura.genero}</td>
-                        <td>${caricatura.pais}</td>
-                        <td>${caricatura.personajes}</td>
-                        <td>${caricatura.duracion}</td>
-                        <td>${caricatura.temporadas}</td>
-                        <td>${caricatura.vigencia}</td>
-                        <td>${caricatura.popularidad}</td>
+                        <td contenteditable="true">${caricatura.nombre}</td>
+                        <td contenteditable="true">${caricatura.year}</td>
+                        <td contenteditable="true">${caricatura.creador}</td>
+                        <td contenteditable="true">${caricatura.genero}</td>
+                        <td contenteditable="true">${caricatura.pais}</td>
+                        <td contenteditable="true">${caricatura.personajes}</td>
+                        <td contenteditable="true">${caricatura.duracion}</td>
+                        <td contenteditable="true">${caricatura.temporadas}</td>
+                        <td contenteditable="true">${caricatura.vigencia}</td>
+                        <td contenteditable="true">${caricatura.popularidad}</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="editarCaricatura('${doc.id}')">Editar</button>
+                            <button class="btn btn-warning btn-sm" onclick="guardarEdicion(this, '${doc.id}')">Guardar</button>
                             <button class="btn btn-danger btn-sm" onclick="eliminarCaricatura('${doc.id}')">Eliminar</button>
                         </td>
                     `;
                 });
             });
+        };
+
+        // Función para guardar la edición de una caricatura
+        const guardarEdicion = async (button, id) => {
+            const row = button.closest('tr');
+            const updatedCaricatura = {
+                nombre: row.cells[0].innerText,
+                year: row.cells[1].innerText,
+                creador: row.cells[2].innerText,
+                genero: row.cells[3].innerText,
+                pais: row.cells[4].innerText,
+                personajes: row.cells[5].innerText,
+                duracion: row.cells[6].innerText,
+                temporadas: row.cells[7].innerText,
+                vigencia: row.cells[8].innerText,
+                popularidad: row.cells[9].innerText
+            };
+
+            try {
+                const docRef = doc(db, "caricaturas", id);
+                await updateDoc(docRef, updatedCaricatura);
+            } catch (error) {
+                console.error("Error al actualizar caricatura: ", error);
+            }
         };
 
         // Función para eliminar una caricatura
@@ -139,57 +163,10 @@
             }
         };
 
-        // Función para editar una caricatura
-        const editarCaricatura = async (id) => {
-            try {
-                const docRef = doc(db, "caricaturas", id);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const caricatura = docSnap.data();
-                    productform.nombreCaricatura.value = caricatura.nombre;
-                    productform.year.value = caricatura.year;
-                    productform.creador.value = caricatura.creador;
-                    productform.genero.value = caricatura.genero;
-                    productform.pais.value = caricatura.pais;
-                    productform.personajes.value = caricatura.personajes;
-                    productform.duracion.value = caricatura.duracion;
-                    productform.temporadas.value = caricatura.temporadas;
-                    productform.vigencia.value = caricatura.vigencia;
-                    productform.popularidad.value = caricatura.popularidad;
-
-                    productform.removeEventListener("submit", agregarCaricatura);
-                    productform.addEventListener("submit", async (e) => {
-                        e.preventDefault();
-                        try {
-                            await updateDoc(docRef, {
-                                nombre: productform.nombreCaricatura.value,
-                                year: productform.year.value,
-                                creador: productform.creador.value,
-                                genero: productform.genero.value,
-                                pais: productform.pais.value,
-                                personajes: productform.personajes.value,
-                                duracion: productform.duracion.value,
-                                temporadas: productform.temporadas.value,
-                                vigencia: productform.vigencia.value,
-                                popularidad: productform.popularidad.value,
-                            });
-                            productform.reset();
-                            productform.removeEventListener("submit", actualizarCaricatura);
-                            productform.addEventListener("submit", agregarCaricatura);
-                        } catch (error) {
-                            console.error("Error al actualizar caricatura: ", error);
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error("Error al obtener caricatura: ", error);
-            }
-        };
-
         cargarCaricaturas();
 
         window.eliminarCaricatura = eliminarCaricatura;
-        window.editarCaricatura = editarCaricatura;
+        window.guardarEdicion = guardarEdicion;
     </script>
 </body>
 </html>
