@@ -279,14 +279,6 @@ caricaturasTableBody.addEventListener("click", function(event) {
             const docRef = doc(docId);
             updateDoc(docRef, newData);
 
-            // Deshabilitar la edición de los campos de entrada
-            inputs.forEach(input => {
-                input.setAttribute("readonly", true);
-            });
-
-            // Cambiar el texto del botón de guardar a "Editar"
-            event.target.textContent = "Editar";
-
             // Cambiar la clase del botón de guardar a la clase original
             event.target.classList.remove("btn-guardar");
             event.target.classList.add("btn-editar");
