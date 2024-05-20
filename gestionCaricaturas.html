@@ -78,7 +78,8 @@
         const productform = document.getElementById("form-product-insert");
         const tableBody = document.getElementById('caricaturas-table').getElementsByTagName('tbody')[0];
 
-        productform.addEventListener("submit", async (e) => {
+        // Función para agregar una caricatura
+        const agregarCaricatura = async (e) => {
             e.preventDefault();
             await addDoc(collection(db, "caricaturas"), {
                 nombre: productform.nombreCaricatura.value,
@@ -93,8 +94,12 @@
                 popularidad: productform.popularidad.value,
             });
             productform.reset();
-        });
+        };
 
+        // Añadir evento para insertar caricatura solo una vez
+        productform.addEventListener("submit", agregarCaricatura);
+
+        // Función para cargar las caricaturas en la tabla
         const cargarCaricaturas = () => {
             onSnapshot(collection(db, "caricaturas"), (snapshot) => {
                 tableBody.innerHTML = '';
@@ -121,10 +126,12 @@
             });
         };
 
+        // Función para eliminar una caricatura
         const eliminarCaricatura = async (id) => {
             await deleteDoc(doc(db, "caricaturas", id));
         };
 
+        // Función para editar una caricatura
         const editarCaricatura = async (id) => {
             const docRef = doc(db, "caricaturas", id);
             const docSnap = await getDoc(docRef);
@@ -163,24 +170,6 @@
             }
         };
 
-        const agregarCaricatura = async (e) => {
-            e.preventDefault();
-            await addDoc(collection(db, "caricaturas"), {
-                nombre: productform.nombreCaricatura.value,
-                year: productform.year.value,
-                creador: productform.creador.value,
-                genero: productform.genero.value,
-                pais: productform.pais.value,
-                personajes: productform.personajes.value,
-                duracion: productform.duracion.value,
-                temporadas: productform.temporadas.value,
-                vigencia: productform.vigencia.value,
-                popularidad: productform.popularidad.value,
-            });
-            productform.reset();
-        };
-
-        productform.addEventListener("submit", agregarCaricatura);
         cargarCaricaturas();
 
         window.eliminarCaricatura = eliminarCaricatura;
