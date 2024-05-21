@@ -246,13 +246,13 @@
         caricaturasTableBody.addEventListener("click", function(event) {
             if (event.target.classList.contains("btn-eliminar")) {
                 const docId = event.target.getAttribute('data-doc-id');
-                eliminarCaricatura(docId);
-                if (event.target.classList.contains("btn-editar")) {
-        const docId = event.target.getAttribute('data-doc-id');
-        editarCaricatura(docId);
-    
+                eliminarCaricatura(docId);}
+            if (event.target.classList.contains("btn-editar")) {
+                const docId = event.target.getAttribute('data-doc-id');
+                editarCaricatura(docId);
+            
             }
-            }
+            
         });
 
         onSnapshot(collection(db, "caricaturas"), (snapshot) => {
