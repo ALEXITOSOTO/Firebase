@@ -119,6 +119,7 @@
 </div>
 
 
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, where, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -247,8 +248,9 @@
                 const docId = event.target.getAttribute('data-doc-id');
                 eliminarCaricatura(docId);
                 if (event.target.classList.contains("btn-editar")) {
-                const docId = event.target.getAttribute('data-doc-id');
-                editarCaricatura(docId);
+        const docId = event.target.getAttribute('data-doc-id');
+        editarCaricatura(docId);
+    
             }
             }
         });
