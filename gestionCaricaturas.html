@@ -31,33 +31,8 @@
                 <button type="submit" class="btn btn-outline-success btn-lg">Agregar Caricatura</button>
             </form>
         </div>
-        
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h1 style="color: #37d1f6;">Actualizacion de caricatura</h1>
-            <form id="form-product-update">
-                <input id="nombreCaricaturaBuscar" type="text" placeholder="Ingrese Nombre de caricatura a actualizar" class="form-control"><br>
-                <div class="row">
-                    <div class="col-md-6">
-                        <input id="nombreCaricaturaUpdate" type="text" placeholder="Ingrese nuevo Nombre de caricatura" class="form-control"><br>
-                        <input id="yearUpdate" type="number" placeholder="Ingrese nuevo Año de lanzamiento" class="form-control"><br>
-                        <input id="creadorUpdate" type="text" placeholder="Ingrese nuevo Creador(es)" class="form-control"><br>
-                        <input id="generoUpdate" type="text" placeholder="Ingrese nuevo Género" class="form-control"><br>
-                        <input id="paisUpdate" type="text" placeholder="Ingrese nuevo País de origen" class="form-control"><br>
-                    </div>
-                    <div class="col-md-6">
-                        <input id="personajesUpdate" type="text" placeholder="Ingrese nuevo Personajes principales" class="form-control"><br>
-                        <input id="duracionUpdate" type="number" placeholder="Ingrese nuevo Duración de los episodios" class="form-control"><br>
-                        <input id="temporadasUpdate" type="number" placeholder="Ingrese nuevo Número de temporadas" class="form-control"><br>
-                        <input id="vigenciaUpdate" type="text" placeholder="Ingrese nuevo Vigencia activa o innactiva" class="form-control"><br>
-                        <input id="popularidadUpdate" type="text" placeholder="Ingrese nuevo Popularidad" class="form-control"><br>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-outline-info">Actualizar Caricatura</button>
-            </form>
-        </div>
-    </div>
+
     <div class="row">
         <div class="col-md-12">
             <h1 style="color: #37d1f6;">Datos de Caricaturas</h1>
@@ -74,184 +49,208 @@
                         <th>Temporadas</th>
                         <th>Vigencia</th>
                         <th>Popularidad</th>
-                        <th>OPCION</th>
+                        <th>Opción</th>
                     </tr>
                 </thead>
                 <tbody id="caricaturasTableBody"></tbody>
             </table>
         </div>
     </div>
-    
+
+    <!-- Modal para editar caricaturas -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Caricatura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-product-edit">
+                        <div class="mb-3">
+                            <label for="nombreCaricaturaEdit" class="form-label">Nombre de Caricatura</label>
+                            <input type="text" class="form-control" id="nombreCaricaturaEdit">
+                        </div>
+                        <div class="mb-3">
+                            <label for="yearEdit" class="form-label">Año de lanzamiento</label>
+                            <input type="number" class="form-control" id="yearEdit">
+                        </div>
+                        <div class="mb-3">
+                            <label for="creadorEdit" class="form-label">Creador(es)</label>
+                            <input type="text" class="form-control" id="creadorEdit">
+                        </div>
+                        <div class="mb-3">
+                            <label for="generoEdit" class="form-label">Género</label>
+                            <input type="text" class="form-control" id="generoEdit">
+                        </div>
+                        <div class="mb-3">
+                            <label for="paisEdit" class="form-label">País de origen</label>
+                            <input type="text" class="form-control" id="paisEdit">
+                        </div>
+                        <div class="mb-3">
+                            <label for="personajesEdit" class="form-label">Personajes principales</label>
+                            <input type="text" class="form-control" id="personajesEdit">
+                        </div>
+                        <div class="mb-3">
+                            <label for="duracionEdit" class="form-label">Duración de los episodios</label>
+                            <input type="number" class="form-control" id="duracionEdit">
+                        </div>
+                        <div class="mb-3">
+                            <label for="temporadasEdit" class="form-label">Número de temporadas</label>
+                            <input type="number" class="form-control" id="temporadasEdit">
+                        </div>
+                        <div class="mb-3">
+                            <label for="vigenciaEdit" class="form-label">Vigencia</label>
+                            <input type="text" class="form-control" id="vigenciaEdit">
+                        </div>
+                        <div class="mb-3">
+                            <label for="popularidadEdit" class="form-label">Popularidad</label>
+                            <input type="text" class="form-control" id="popularidadEdit">
+                        </div>
+                        <input type="hidden" id="editDocId">
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, query, where, getDocs, updateDoc, doc } 
-        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-        apiKey: "AIzaSyBl98YMnGuEua8KD8aXPG2TeWlBz-7xEKA",
-        authDomain: "futbol-953ae.firebaseapp.com",
-        projectId: "futbol-953ae",
-        storageBucket: "futbol-953ae.appspot.com",
-        messagingSenderId: "580514350036",
-        appId: "1:580514350036:web:e471b2d2e9485a52d10c41",
-        measurementId: "G-F614L2EHS5"
+            apiKey: "AIzaSyBl98YMnGuEua8KD8aXPG2TeWlBz-7xEKA",
+            authDomain: "futbol-953ae.firebaseapp.com",
+            projectId: "futbol-953ae",
+            storageBucket: "futbol-953ae.appspot.com",
+            messagingSenderId: "580514350036",
+            appId: "1:580514350036:web:e471b2d2e9485a52d10c41",
+            measurementId: "G-F614L2EHS5"
         };
-        // Initialize Firebase
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        // INSERTAR CARICATURA
+
         const productform = document.getElementById("form-product-insert");
-            productform.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                await addDoc(collection(db,"caricaturas"),{
-                    nombre: productform.nombreCaricatura.value,
-                    year: productform.year.value,
-                    creador: productform.creador.value,
-                    genero: productform.genero.value,
-                    pais: productform.pais.value,
-                    personajes: productform.personajes.value,
-                    duracion: productform.duracion.value,
-                    temporadas: productform.temporadas.value,
-                    vigencia: productform.vigencia.value,
-                    popularidad: productform.popularidad.value,
-                });
-                productform.reset();
+        productform.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "caricaturas"), {
+                nombre: productform.nombreCaricatura.value,
+                year: productform.year.value,
+                creador: productform.creador.value,
+                genero: productform.genero.value,
+                pais: productform.pais.value,
+                personajes: productform.personajes.value,
+                duracion: productform.duracion.value,
+                temporadas: productform.temporadas.value,
+                vigencia: productform.vigencia.value,
+                popularidad: productform.popularidad.value,
             });
+            productform.reset();
+        });
 
-            // ELIMINAR CARICATURA
-            // Función para eliminar una caricatura
-            async function eliminarCaricatura(docId) {
-                try {
-                    // Eliminar la caricatura de la base de datos
-                    await deleteDoc(doc(db, "caricaturas", docId));
-                    console.log("Caricatura eliminada correctamente de la base de datos");
-
-                    // Eliminar la fila correspondiente de la tabla
-                    const row = document.getElementById(docId);
-                    if (row) {
-                        row.remove();
-                        console.log("Fila de la tabla eliminada correctamente");
-                    } else {
-                        console.error("No se encontró la fila de la tabla");
-                    }
-                } catch (error) {
-                    console.error("Error al eliminar caricatura: ", error);
+        async function eliminarCaricatura(docId) {
+            try {
+                await deleteDoc(doc(db, "caricaturas", docId));
+                const row = document.getElementById(docId);
+                if (row) {
+                    row.remove();
                 }
+            } catch (error) {
+                console.error("Error al eliminar caricatura: ", error);
             }
+        }
 
-            // Escuchar clics en la tabla para manejar los clics en los botones de eliminar
-            document.getElementById("caricaturasTableBody").addEventListener("click", function(event) {
-                // Comprobar si el clic ocurrió en un botón de eliminar
-                if (event.target.classList.contains("btn-eliminar")) {
-                    // Obtener el ID del documento de la fila
-                    const docId = event.target.closest("tr").id;
-                    // Llamar a la función eliminarCaricatura con el ID del documento
-                    eliminarCaricatura(docId);
-                }
+        async function editarCaricatura(docId) {
+            const docRef = doc(db, "caricaturas", docId);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('nombreCaricaturaEdit').value = data.nombre;
+                document.getElementById('yearEdit').value = data.year;
+                document.getElementById('creadorEdit').value = data.creador;
+                document.getElementById('generoEdit').value = data.genero;
+                document.getElementById('paisEdit').value = data.pais;
+                document.getElementById('personajesEdit').value = data.personajes;
+                document.getElementById('duracionEdit').value = data.duracion;
+                document.getElementById('temporadasEdit').value = data.temporadas;
+                document.getElementById('vigenciaEdit').value = data.vigencia;
+                document.getElementById('popularidadEdit').value = data.popularidad;
+                document.getElementById('editDocId').value = docId;
+
+                const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                editModal.show();
+            }
+        }
+
+        const editForm = document.getElementById('form-product-edit');
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const docId = document.getElementById('editDocId').value;
+            const docRef = doc(db, "caricaturas", docId);
+
+            await updateDoc(docRef, {
+                nombre: document.getElementById('nombreCaricaturaEdit').value,
+                year: document.getElementById('yearEdit').value,
+                creador: document.getElementById('creadorEdit').value,
+                genero: document.getElementById('generoEdit').value,
+                pais: document.getElementById('paisEdit').value,
+                personajes: document.getElementById('personajesEdit').value,
+                duracion: document.getElementById('duracionEdit').value,
+                temporadas: document.getElementById('temporadasEdit').value,
+                vigencia: document.getElementById('vigenciaEdit').value,
+                popularidad: document.getElementById('popularidadEdit').value,
             });
+            const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+            editModal.hide();
+        });
 
-            //ACTUALIZAR CARICATURA
-            
-            const productform2 = document.getElementById("form-product-update");
-            productform2.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                try {
-                    const nombreCaricaturaBuscar = productform2.nombreCaricaturaBuscar.value;
+        const caricaturasTableBody = document.getElementById("caricaturasTableBody");
 
-                    if (!nombreCaricaturaBuscar) {
-                        console.error("El nombre de la caricatura no puede estar vacío");
-                        return;
-                    }
-
-                    const caricaturaQuery = query(collection(db, "caricaturas"), where("nombre", "==", nombreCaricaturaBuscar));
-                    const querySnapshot = await getDocs(caricaturaQuery);
-
-                    if (querySnapshot.empty) {
-                        console.log("No se encontraron caricaturas con ese nombre.");
-                        return;
-                    }
-
-                    const docRef = querySnapshot.docs[0].ref;
-                    await updateDoc(docRef, {
-                        nombre: productform2.nombreCaricaturaUpdate.value,
-                        year: productform2.yearUpdate.value,
-                        creador: productform2.creadorUpdate.value,
-                        genero: productform2.generoUpdate.value,
-                        pais: productform2.paisUpdate.value,
-                        personajes: productform2.personajesUpdate.value,
-                        duracion: productform2.duracionUpdate.value,
-                        temporadas: productform2.temporadasUpdate.value,
-                        vigencia: productform2.vigenciaUpdate.value,
-                        popularidad: productform2.popularidadUpdate.value,
-                    });
-                    console.log("Documento actualizado correctamente");
-
-                    productform2.reset();
-                } catch (error) {
-                    console.error("Error al actualizar documento: ", error);
-                }
+        function mostrarDatosEnTabla(snapshot) {
+            caricaturasTableBody.innerHTML = ""; 
+            snapshot.forEach((doc) => {
+                const caricaturaData = doc.data();
+                const row = document.createElement('tr');
+                row.id = doc.id;
+                row.innerHTML = `
+                    <td>${caricaturaData.nombre}</td>
+                    <td>${caricaturaData.year}</td>
+                    <td>${caricaturaData.creador}</td>
+                    <td>${caricaturaData.genero}</td>
+                    <td>${caricaturaData.pais}</td>
+                    <td>${caricaturaData.personajes}</td>
+                    <td>${caricaturaData.duracion}</td>
+                    <td>${caricaturaData.temporadas}</td>
+                    <td>${caricaturaData.vigencia}</td>
+                    <td>${caricaturaData.popularidad}</td>
+                    <td>
+                        <button data-doc-id="${doc.id}" class="btn-eliminar btn btn-danger">Eliminar</button>
+                        <button data-doc-id="${doc.id}" class="btn-editar btn btn-success">Editar</button>
+                    </td>
+                `;
+                caricaturasTableBody.appendChild(row);
             });
-            
-            
-            
-                //AAAAAAAAAAAAAAAAA
-                const caricaturasTableBody = document.getElementById("caricaturasTableBody");
+        }
 
-                function mostrarDatosEnTabla(snapshot) {
-                    caricaturasTableBody.innerHTML = ""; 
+        caricaturasTableBody.addEventListener("click", function(event) {
+            if (event.target.classList.contains("btn-eliminar")) {
+                const docId = event.target.getAttribute('data-doc-id');
+                eliminarCaricatura(docId);
+            } else if (event.target.classList.contains("btn-editar")) {
+                const docId = event.target.getAttribute('data-doc-id');
+                editarCaricatura(docId);
+            }
+        });
 
-                    snapshot.forEach((doc) => {
-                        const caricaturaData = doc.data();
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${caricaturaData.nombre}</td>
-                            <td>${caricaturaData.year}</td>
-                            <td>${caricaturaData.creador}</td>
-                            <td>${caricaturaData.genero}</td>
-                            <td>${caricaturaData.pais}</td>
-                            <td>${caricaturaData.personajes}</td>
-                            <td>${caricaturaData.duracion}</td>
-                            <td>${caricaturaData.temporadas}</td>
-                            <td>${caricaturaData.vigencia}</td>
-                            <td>${caricaturaData.popularidad}</td>
-                            <td>
-                                <button data-doc-id="${doc.id}" class="btn-eliminar btn btn-danger">Eliminar</button>
-                                <button data-doc-id="${doc.id}" class="btn-editar btn btn-success">Editar</button>
-                            </td>
-                        `;
-                        caricaturasTableBody.appendChild(row);
-                    });
-                }
+        onSnapshot(collection(db, "caricaturas"), (snapshot) => {
+            mostrarDatosEnTabla(snapshot);
+        });
 
-                // Escuchar clics en la tabla para manejar los clics en los botones de eliminar
-                caricaturasTableBody.addEventListener("click", function(event) {
-                    // Comprobar si el clic ocurrió en un botón de eliminar
-                    if (event.target.classList.contains("btn-eliminar")) {
-                        // Obtener el ID del documento de la caricatura
-                        const docId = event.target.getAttribute('data-doc-id');
-                        // Llamar a la función eliminarCaricatura con el ID del documento
-                        eliminarCaricatura(docId);
-                    }
-
-                });
-
-                onSnapshot(collection(db, "caricaturas"), (snapshot) => {
-                    mostrarDatosEnTabla(snapshot);
-                });
-
-                getDocs(collection(db, "caricaturas")).then((snapshot) => {
-                    mostrarDatosEnTabla(snapshot);
-                });
-
-
-            
-        </script>
+        getDocs(collection(db, "caricaturas")).then((snapshot) => {
+            mostrarDatosEnTabla(snapshot);
+        });
+    </script>
 </body>
 </html>
