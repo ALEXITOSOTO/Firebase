@@ -64,68 +64,66 @@
     </div>
 
     <!-- Modal para editar caricaturas -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Editar Caricatura</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="form-product-edit">
-                    <div class="mb-3">
-                        <label for="nombreCaricaturaEdit" class="form-label">Nombre de Caricatura</label>
-                        <input type="text" class="form-control" id="nombreCaricaturaEdit" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="yearEdit" class="form-label">Año de lanzamiento</label>
-                        <input type="number" class="form-control" id="yearEdit" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="creadorEdit" class="form-label">Creador(es)</label>
-                        <input type="text" class="form-control" id="creadorEdit" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="generoEdit" class="form-label">Género</label>
-                        <input type="text" class="form-control" id="generoEdit" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="paisEdit" class="form-label">País de origen</label>
-                        <input type="text" class="form-control" id="paisEdit" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="personajesEdit" class="form-label">Personajes principales</label>
-                        <input type="text" class="form-control" id="personajesEdit" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="duracionEdit" class="form-label">Duración de los episodios</label>
-                        <input type="number" class="form-control" id="duracionEdit" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="temporadasEdit" class="form-label">Número de temporadas</label>
-                        <input type="number" class="form-control" id="temporadasEdit" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="vigenciaEdit" class="form-label">Vigencia</label>
-                        <input type="text" class="form-control" id="vigenciaEdit" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="popularidadEdit" class="form-label">Popularidad</label>
-                        <input type="text" class="form-control" id="popularidadEdit" required>
-                    </div>
-                    <input type="hidden" id="editDocId">
-                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                </form>
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Caricatura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-product-edit">
+                        <div class="mb-3">
+                            <label for="nombreCaricaturaEdit" class="form-label">Nombre de Caricatura</label>
+                            <input type="text" class="form-control" id="nombreCaricaturaEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="yearEdit" class="form-label">Año de lanzamiento</label>
+                            <input type="number" class="form-control" id="yearEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="creadorEdit" class="form-label">Creador(es)</label>
+                            <input type="text" class="form-control" id="creadorEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="generoEdit" class="form-label">Género</label>
+                            <input type="text" class="form-control" id="generoEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="paisEdit" class="form-label">País de origen</label>
+                            <input type="text" class="form-control" id="paisEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="personajesEdit" class="form-label">Personajes principales</label>
+                            <input type="text" class="form-control" id="personajesEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="duracionEdit" class="form-label">Duración de los episodios</label>
+                            <input type="number" class="form-control" id="duracionEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="temporadasEdit" class="form-label">Número de temporadas</label>
+                            <input type="number" class="form-control" id="temporadasEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vigenciaEdit" class="form-label">Vigencia</label>
+                            <input type="text" class="form-control" id="vigenciaEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="popularidadEdit" class="form-label">Popularidad</label>
+                            <input type="text" class="form-control" id="popularidadEdit" required>
+                        </div>
+                        <input type="hidden" id="editDocId">
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, where, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBl98YMnGuEua8KD8aXPG2TeWlBz-7xEKA",
@@ -171,30 +169,28 @@
         }
 
         async function editarCaricatura(docId) {
-    console.log("Intentando editar caricatura con ID:", docId);
-    const docRef = doc(db, "caricaturas", docId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        const data = docSnap.data();
-        document.getElementById('nombreCaricaturaEdit').value = data.nombre;
-        document.getElementById('yearEdit').value = data.year;
-        document.getElementById('creadorEdit').value = data.creador;
-        document.getElementById('generoEdit').value = data.genero;
-        document.getElementById('paisEdit').value = data.pais;
-        document.getElementById('personajesEdit').value = data.personajes;
-        document.getElementById('duracionEdit').value = data.duracion;
-        document.getElementById('temporadasEdit').value = data.temporadas;
-        document.getElementById('vigenciaEdit').value = data.vigencia;
-        document.getElementById('popularidadEdit').value = data.popularidad;
-        document.getElementById('editDocId').value = docId;
+            console.log("Intentando editar caricatura con ID:", docId);
+            const docRef = doc(db, "caricaturas", docId);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('nombreCaricaturaEdit').value = data.nombre;
+                document.getElementById('yearEdit').value = data.year;
+                document.getElementById('creadorEdit').value = data.creador;
+                document.getElementById('generoEdit').value = data.genero;
+                document.getElementById('paisEdit').value = data.pais;
+                document.getElementById('personajesEdit').value = data.personajes;
+                document.getElementById('duracionEdit').value = data.duracion;
+                document.getElementById('temporadasEdit').value = data.temporadas;
+                document.getElementById('vigenciaEdit').value = data.vigencia;
+                document.getElementById('popularidadEdit').value = data.popularidad;
+                document.getElementById('editDocId').value = docId;
 
-        console.log("Mostrando modal de edición.");
-        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
-        editModal.show();
-    }
-}
-
-
+                console.log("Mostrando modal de edición.");
+                const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                editModal.show();
+            }
+        }
 
         const editForm = document.getElementById('form-product-edit');
         editForm.addEventListener('submit', async (e) => {
@@ -253,9 +249,7 @@
             if (event.target.classList.contains("btn-editar")) {
                 const docId = event.target.getAttribute('data-doc-id');
                 editarCaricatura(docId);
-            
             }
-            
         });
 
         onSnapshot(collection(db, "caricaturas"), (snapshot) => {
