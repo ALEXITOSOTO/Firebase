@@ -8,22 +8,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <title>Registrarse</title>
 </head>
-<body style="background-color: #212529; margin: 2vh;">
-    <h1 style="background-color: #032830; text-align: center;color: aquamarine;">Registrarse</h1>
-    
-    <div class="container mt-5">
-        <h2 style="color: #37d1f6;">Crear Cuenta</h2>
-        <form id="register-form">
-            <div class="mb-3">
-                <label for="email-register" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="email-register" required>
-            </div>
-            <div class="mb-3">
-                <label for="password-register" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password-register" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Registrarse</button>
-        </form>
+<body style="background-color: #212529; margin: 2vh;">    
+    <div class="row" style="margin-top: 10%; width: 120vh; margin-left: 20%; border: 1px solid rgb(34, 165, 192);">
+        <div class="col-md-6">
+            <img style="box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.5);margin-left: -2vh;" src="https://th.bing.com/th/id/R.a3eb899b47552e1a8f1a40f9a261fdf2?rik=BE9Sx8fmqCqeMg&riu=http%3a%2f%2f4.bp.blogspot.com%2f-PxyMccLh3tk%2fTmy4dcMM1CI%2fAAAAAAAAASQ%2f4hqeqcpgHcg%2fs1600%2fwpid-simpsons-s23-2.jpg&ehk=UA8M4Dr%2bk2JzdSQkGMZ3987ED4%2fl3Ds1mggSuMWCu2A%3d&risl=&pid=ImgRaw&r=0" alt="">
+        </div>
+        <div class="col-md-6" >
+            <h2 style="color: #37d1f6;margin-left:8vh;">Crear Cuenta</h2>
+            <form id="register-form" style="margin-left:8vh; color: aliceblue;">
+                <div class="mb-1">
+                    <label for="email-register" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email-register" required>
+                </div>
+                <div class="mb-1">
+                    <label for="password-register" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password-register" required>
+                </div><br>
+                <button type="submit" class="btn btn-primary">Registrarse</button>
+            </form> <br>
+            <a href="login.html" style="margin-left: 8vh;"><button type="" class="btn btn-danger">Cancelar</button></a>
+        </div>
     </div>
 
     <script type="module">

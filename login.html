@@ -9,23 +9,26 @@
     <title>Iniciar Sesión</title>
 </head>
 <body style="background-color: #212529; margin: 2vh;">
-    <h1 style="background-color: #032830; text-align: center; color: aquamarine;">Iniciar Sesión</h1>
-    
-    <div class="container mt-5">
-        <h2 style="color: #37d1f6;">Iniciar Sesión</h2>
-        <form id="login-form">
-            <div class="mb-3">
-                <label for="email-login" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="email-login" required>
-            </div>
-            <div class="mb-3">
-                <label for="password-login" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password-login" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-        </form>
-        <button id="google-login-btn" class="btn btn-danger mt-2">Iniciar Sesión con Google</button>
-        <a href="register.html" class="btn btn-secondary mt-2">Registrarse</a>
+    <div class="row" style="margin-top: 10%; width: 100vh; margin-left: 20%; border: 1px solid rgb(34, 165, 192);">
+        <div class="col-md-6">
+            <h2 style="color: #37d1f6;">Iniciar Sesión</h2>
+            <form id="login-form">
+                <div class="mb-1">
+                    <label for="email-login" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email-login" placeholder="Ingrese su Correo Electrónico" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password-login" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password-login" placeholder="Ingrese Contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+            <button id="google-login-btn" class="btn btn-danger mt-2">Iniciar Sesión con Google</button>
+            <a href="register.html" class="btn btn-secondary mt-2">Registrarse</a>
+        </div>
+        <div class="col-md-6">
+            <img style="box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.5);" src="https://th.bing.com/th/id/R.a3eb899b47552e1a8f1a40f9a261fdf2?rik=BE9Sx8fmqCqeMg&riu=http%3a%2f%2f4.bp.blogspot.com%2f-PxyMccLh3tk%2fTmy4dcMM1CI%2fAAAAAAAAASQ%2f4hqeqcpgHcg%2fs1600%2fwpid-simpsons-s23-2.jpg&ehk=UA8M4Dr%2bk2JzdSQkGMZ3987ED4%2fl3Ds1mggSuMWCu2A%3d&risl=&pid=ImgRaw&r=0" alt="">
+        </div>
     </div>
 
     <script type="module">
