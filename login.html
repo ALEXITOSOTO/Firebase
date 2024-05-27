@@ -13,6 +13,7 @@
         <div class="col-md-6">
             <h2 style="color: #37d1f6;">Iniciar Sesión</h2>
             <form id="login-form">
+                <div id="alert-container"></div>
                 <div class="mb-1">
                     <label for="email-login" class="form-label">Correo Electrónico</label>
                     <input type="email" class="form-control" id="email-login" placeholder="Ingrese su Correo Electrónico" required>
@@ -59,6 +60,13 @@
                     window.location.href = "gestionCaricaturas.html";
                 })
                 .catch((error) => {
+                    const alertContainer = document.getElementById('alert-container');
+                    alertContainer.innerHTML = `
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            Error al iniciar sesión: Correo o contraseña incorrectos.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    `;
                     console.error("Error al iniciar sesión: ", error);
                 });
         });
@@ -69,6 +77,13 @@
                     window.location.href = "gestionCaricaturas.html";
                 })
                 .catch((error) => {
+                    const alertContainer = document.getElementById('alert-container');
+                    alertContainer.innerHTML = `
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            Error al iniciar sesión con Google.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    `;
                     console.error("Error al iniciar sesión con Google: ", error);
                 });
         });
